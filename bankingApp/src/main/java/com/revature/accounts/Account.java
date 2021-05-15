@@ -25,6 +25,8 @@ public class Account implements Serializable {
 		this.customerList = new ArrayList<Customer>();
 		for (Customer customer: customers) {
 			customerList.add(customer);
+			customer.addAccount(this);
+			
 		}
 	}
 	

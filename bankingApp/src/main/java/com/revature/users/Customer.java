@@ -63,7 +63,7 @@ public class Customer extends User {
 	}
 	public void addAccount(Account newAccount) {
 		this.accountList.add(newAccount);
-		System.out.println("Added " + newAccount + ". The current list of accounts is:");
+		System.out.println("Added " + newAccount + ". The current list of accounts for user "+ this.getUserName() +  " is:");
 		for(int i = 0; i < accountList.size(); i++) {
 			int j = i + 1;
 			System.out.println(j + ". The " + accountList.get(i));
