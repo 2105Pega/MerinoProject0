@@ -3,7 +3,7 @@ package com.revature.accounts;
 public class Account {
 	private int accountNumber;
 	private double balance;
-	private String status;
+	private boolean approved;
 	
 	public int getAccountNumber() {
 		return accountNumber;
@@ -17,12 +17,13 @@ public class Account {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	public String getStatus() {
-		return status;
+	public boolean isApproved() {
+		return approved;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
+	
 	
 	
 	

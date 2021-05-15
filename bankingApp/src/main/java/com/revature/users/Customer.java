@@ -1,21 +1,35 @@
 package com.revature.users;
 
-public class Customer {
-	String firstName;
-	String lastName;
-	String Address;
-	String phone;
+import java.util.ArrayList;
 
-	private String withdraw(double withdrawl) {
-
+public class Customer extends User {
+		
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String phone;
+	private ArrayList<Integer> accountList;
+	
+	public Customer(String user, String pass, String firstName, String lastName) {
+		super(user, pass);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		accountList = new ArrayList<Integer>();
 	}
-
-	private String deposit(double deposit) {
-
+	public Customer(String user, String pass, String firstName, String lastName, String address) {
+		super(user, pass);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		accountList = new ArrayList<Integer>();
 	}
-
-	private String transfer(double transfer, int receivingAcc) {
-
+	public Customer(String user, String pass, String firstName, String lastName, String address, String phone) {
+		super(user, pass);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.phone = phone;
+		accountList = new ArrayList<Integer>();
 	}
 
 }
