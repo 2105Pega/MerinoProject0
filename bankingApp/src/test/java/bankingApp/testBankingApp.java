@@ -4,21 +4,24 @@ import com.revature.users.*;
 import com.revature.accounts.*;
 import com.revature.services.CustomerService;
 import com.revature.services.UserListService;
+import com.revature.services.UserService;
 import com.revature.services.tServices;
 
 public class testBankingApp {
 	
 	@Test
 	public void testAddAccount() {
+		UserList ul = UserListService.readUL();
 		Customer c = new Customer("user", "pass", "Luis", "Merino");
-		Account a = new Account(19, "checking", c);
+		Account a = new Account(ul, 19, "checking", c);
 		Assertions.assertEquals(a, c.getAccount(0));
 	}
 	@Test
 	public void testCustomerList() {
+		UserList ul = UserListService.readUL();
 		Customer d = new Customer("user2", "pass", "Luis", "Merino");
 		Customer f = new Customer("user3", "pass", "Luis", "Merino");
-		Account b = new Account(27.00, "saving", d, f);
+		Account b = new Account(ul, 27.00, "saving", d, f);
 		
 		
 		Assertions.assertEquals(d, b.getCustomer(0));
@@ -34,8 +37,9 @@ public class testBankingApp {
 	
 	@Test
 	public void testWithdrawPending() {
+		UserList ul = UserListService.readUL();
 		Customer u = new Customer("user4", "pass", "Luis", "Merino");
-		Account c = new Account(20.00, "checking",  u);
+		Account c = new Account(ul, 20.00, "checking",  u);
 		System.out.println(tServices.withdraw(19, c));
 		Assertions.assertEquals(20, c.getBalance());
 		Assertions.assertEquals("Pending", c.getApproved());
@@ -43,8 +47,9 @@ public class testBankingApp {
 	
 	@Test
 	public void testWithdraw() {
+		UserList ul = UserListService.readUL();
 		Customer u = new Customer("user4", "pass", "Luis", "Merino");
-		Account c = new Account(20.00, "checking",  u);
+		Account c = new Account(ul, 20.00, "checking",  u);
 		c.setApproved("Approved");
 		System.out.println(tServices.withdraw(19, c));
 		System.out.println(tServices.withdraw(2, c));
@@ -54,8 +59,9 @@ public class testBankingApp {
 	}
 	@Test
 	public void testDepositPending() {
+		UserList ul = UserListService.readUL();
 		Customer u = new Customer("user4", "pass", "Luis", "Merino");
-		Account c = new Account(20.00, "checking",  u);
+		Account c = new Account(ul, 20.00, "checking",  u);
 		System.out.println(tServices.deposit(19, c));
 		Assertions.assertEquals(20, c.getBalance());
 		Assertions.assertEquals("Pending", c.getApproved());
@@ -63,8 +69,9 @@ public class testBankingApp {
 	
 	@Test
 	public void testdeposit() {
+		UserList ul = UserListService.readUL();
 		Customer u = new Customer("user4", "pass", "Luis", "Merino");
-		Account c = new Account(20.00, "checking",  u);
+		Account c = new Account(ul, 20.00, "checking",  u);
 		c.setApproved("Approved");
 		System.out.println(tServices.deposit(19, c));
 		System.out.println(tServices.deposit(2, c));
@@ -74,9 +81,10 @@ public class testBankingApp {
 	}
 	@Test
 	public void testTransferPending() {
+		UserList ul = UserListService.readUL();
 		Customer c = new Customer("user4", "pass", "Luis", "Merino");
-		Account a = new Account(20.00, "checking",  c);
-		Account b = new Account(20.00, "saving",  c);
+		Account a = new Account(ul, 20.00, "checking",  c);
+		Account b = new Account(ul, 20.00, "saving",  c);
 		System.out.println(tServices.transfer(10, a, b));
 		Assertions.assertEquals(20, a.getBalance());
 		Assertions.assertEquals(20, b.getBalance());
@@ -84,9 +92,10 @@ public class testBankingApp {
 	}
 	@Test
 	public void testTransferCancelled() {
+		UserList ul = UserListService.readUL();
 		Customer c = new Customer("user4", "pass", "Luis", "Merino");
-		Account a = new Account(20.00, "checking",  c);
-		Account b = new Account(20.00, "saving",  c);
+		Account a = new Account(ul, 20.00, "checking",  c);
+		Account b = new Account(ul, 20.00, "saving",  c);
 		a.setApproved("Cancelled");
 		System.out.println(tServices.transfer(10, a, b));
 		Assertions.assertEquals(20, a.getBalance());
@@ -95,9 +104,10 @@ public class testBankingApp {
 	}
 	@Test
 	public void testTransferSame() {
+		UserList ul = UserListService.readUL();
 		Customer c = new Customer("user4", "pass", "Luis", "Merino");
-		Account a = new Account(20.00, "checking",  c);
-		Account b = new Account(20.00, "saving",  c);
+		Account a = new Account(ul, 20.00, "checking",  c);
+		Account b = new Account(ul, 20.00, "saving",  c);
 		System.out.println(tServices.transfer(10, a, a));
 		Assertions.assertEquals(20, a.getBalance());
 		Assertions.assertEquals(20, b.getBalance());
@@ -105,9 +115,10 @@ public class testBankingApp {
 	}
 	@Test
 	public void testTransfer() {
+		UserList ul = UserListService.readUL();
 		Customer c = new Customer("user4", "pass", "Luis", "Merino");
-		Account a = new Account(20.00, "checking",  c);
-		Account b = new Account(20.00, "saving",  c);
+		Account a = new Account(ul, 20.00, "checking",  c);
+		Account b = new Account(ul, 20.00, "saving",  c);
 		a.setApproved("Approved");
 		b.setApproved("Approved");
 		System.out.println(tServices.transfer(10, a, b));
@@ -119,18 +130,19 @@ public class testBankingApp {
 	@Test
 	public void testReadUL() {
 		
-		UserList ul = UserListService.readUL();
-		Customer c = new Customer("user4", "pass", "Luis", "Merino");
+		UserList ul = UserList.getInstance();
+		Customer c = new Customer("user10", "pass", "Luis", "Merino");
 		ul.addCustomer(c);
-		UserListService.writeUL();
+		UserListService.writeUL(ul);
 		UserListService.readUL();
 		System.out.println(ul.getCusList().get(0).getFirstName());
 		Assertions.assertEquals("Luis", ul.getCusList().get(0).getFirstName());
 		
 		
 		Customer d = new Customer("user4", "pass", "Pablo", "Merino");
+		
 		ul.addCustomer(d);
-		UserListService.writeUL();
+		UserListService.writeUL(ul);
 		UserListService.readUL();
 		System.out.println(ul.getCusList().get(1).getFirstName());
 		Assertions.assertEquals("Pablo", ul.getCusList().get(1).getFirstName());
@@ -138,16 +150,62 @@ public class testBankingApp {
 	}
 	@Test
 	public void testWriteUL() {
-		
-		UserListService.writeUL();
+		UserList ul = UserListService.readUL();
+		UserListService.writeUL(ul);
 		Assertions.assertEquals(UserList.getInstance(), UserList.getInstance());
 	}
 	@Test
 	public void testListAccounts() {
+		UserList ul = UserListService.readUL();
 		Customer c = new Customer("user4", "pass", "Pablo", "Merino");
-		new Account(20.00, "checking",  c);
-		new Account(20.00, "saving",  c);
+		new Account(ul, 20.00, "checking",  c);
+		new Account(ul, 20.00, "saving",  c);
 		CustomerService.listAccounts(c);
 		
 	}
+	@Test
+	public void testFindCustomer() {
+		UserList ul = UserListService.readUL();
+		Customer c = new Customer("user100", "pass", "Pablo", "Merino");
+		ul.addCustomer(c);
+		
+		Assertions.assertEquals(c, UserService.findCustomer(ul, "user100"));	
+		
+	}
+	@Test
+	public void testFindCustomerNull() {
+		UserList ul = UserListService.readUL();
+		Assertions.assertEquals(null, UserService.findCustomer(ul, "impossible"));
+	}
+	@Test
+	public void testFindEmployee() {
+		UserList ul = UserListService.readUL();
+		Employee e = new Employee("emp100", "pass");
+		ul.addEmployee(e);
+		
+		Assertions.assertEquals(e, UserService.findEmployee(ul, "emp100"));
+	}
+	@Test
+	public void testFindEmployeeNull() {
+		UserList ul = UserListService.readUL();
+		
+		Assertions.assertEquals(null, UserService.findEmployee(ul, "impossible2"));
+	}
+	@Test
+	public void testFindAccount() {
+		UserList ul = UserListService.readUL();
+		Customer c = new Customer("user4", "pass", "Pablo", "Merino");
+		ul.addCustomer(c);
+		Account a = new Account(ul, 20.00, "checking",  c);
+		Assertions.assertEquals(a, UserListService.findAccount(ul, a.getAccountNumber()));
+	}
+	@Test
+	public void testFindAccountNull() {
+		UserList ul = UserListService.readUL();
+		Customer c = new Customer("user4", "pass", "Pablo", "Merino");
+		ul.addCustomer(c);
+		new Account(ul, 20.00, "checking",  c);
+		Assertions.assertEquals(null, UserListService.findAccount(ul, 123));
+	}
+	
 }

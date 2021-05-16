@@ -12,11 +12,11 @@ import com.revature.users.UserList;
 
 public class UserListService {
 
-	public static void writeUL() {
+	public static void writeUL(UserList ul) {
 		try {
 			FileOutputStream fos = new FileOutputStream("src/main/resources/UserData.txt");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(UserList.getInstance());
+			oos.writeObject(ul);
 			oos.close();
 			fos.close();
 

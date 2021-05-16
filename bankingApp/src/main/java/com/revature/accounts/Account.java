@@ -1,4 +1,5 @@
 package com.revature.accounts;
+import com.revature.services.AccountService;
 import com.revature.users.*;
 
 import java.io.Serializable;
@@ -18,13 +19,20 @@ public class Account implements Serializable {
 	
 	
 	
-	public Account(double balance, String type, Customer ...customers ) {
+	public Account(UserList ul, double balance, String type, Customer ...customers ) {
 		this.balance = balance;
+		while (true) {
 		Random rand = new Random();
 		Integer generated = rand.nextInt(900000000) + 100000000;
-		accountNumber = generated;
+		if (AccountService.checkAvailable(generated, ul)) {
+			accountNumber = generated;
+			break;
+		}
+		
+		}
+		
 		approved = "Pending";
-		if (type == "Checking" || type ==  "checking") {
+		if (type.equals("Checking")  || type.equals("checking") ) {
 			this.accountType = "Checking";
 		} else {
 			this.accountType ="Savings";

@@ -47,14 +47,14 @@ public class tServices {
 		} else {
 			if (sender.getBalance() < amount) {
 				return "Insufficient funds to carry the transaction";
-			} else if (sender.getApproved() == "Pending") {
+			} else if (sender.getApproved().equals("Pending")) {
 				return "The account is pending approval. No transfers allowed until the account is approved.";
-			} else if (sender.getApproved() == "Cancelled") {
+			} else if (sender.getApproved().equals("Cancelled")) {
 				return "This account has been cancelled. Please talk to a local teller.";
-			} else if (receiver.getApproved() == "Pending" || receiver.getApproved() == "Cancelled") {
+			} else if (receiver.getApproved().equals("Pending") || receiver.getApproved().equals("Cancelled")) {
 				return "The recepient account is unable to receive transfers at the moment. Please speak to your recepient.";
 			}
-			if (sender.getApproved() == "Approved" && receiver.getApproved() == "Approved") {
+			if (sender.getApproved().equals("Approved") && receiver.getApproved().equals("Approved")) {
 				tServices.deposit(amount, receiver);
 				String withdrawl = tServices.withdraw(amount, sender);
 				return withdrawl + " The withdrawn amount was transferred to account [" + receiver.getAccountNumber() + "] and should be available immediately.";
