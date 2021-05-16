@@ -10,11 +10,13 @@ public class UserList implements Serializable {
 	 */
 	private static final long serialVersionUID = -800589302506785589L;
 	
-	static UserList instance = null;
-	private final ArrayList<User> uList;
+	private static UserList instance = null;
+	private final ArrayList<Customer> cusList;
+	private final ArrayList<Employee> empList;
 	
 	private UserList() {
-		uList = new ArrayList<User>();
+		cusList = new ArrayList<Customer>();
+		empList = new ArrayList<Employee>();
 	}
 	
 	static public UserList getInstance() {
@@ -23,7 +25,17 @@ public class UserList implements Serializable {
 		}
 		return instance;
 	}
-	public ArrayList<User> getUserList() {
-		return uList;
+	public ArrayList<Customer> getCusList() {
+		return cusList;
+	}
+
+	public ArrayList<Employee> getEmpList() {
+		return empList;
+	}
+	public void addCustomer(Customer customer) {
+		cusList.add(customer);
+	}
+	public void addEmployee(Employee employee) {
+		empList.add(employee);
 	}
 }

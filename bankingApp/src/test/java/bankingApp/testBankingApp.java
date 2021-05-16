@@ -2,6 +2,8 @@ package bankingApp;
 import org.junit.jupiter.api.*;
 import com.revature.users.*;
 import com.revature.accounts.*;
+import com.revature.services.CustomerService;
+import com.revature.services.UserListService;
 import com.revature.services.tServices;
 
 public class testBankingApp {
@@ -27,7 +29,7 @@ public class testBankingApp {
 		UserList myList = UserList.getInstance();
 		UserList myOtherList = UserList.getInstance();
 		Assertions.assertEquals(myList, myOtherList);
-		Assertions.assertEquals(myList.getUserList(), myOtherList.getUserList());
+		Assertions.assertEquals(myList.getCusList(), myOtherList.getCusList());
 	}
 	
 	@Test
@@ -111,6 +113,41 @@ public class testBankingApp {
 		System.out.println(tServices.transfer(10, a, b));
 		Assertions.assertEquals(10, a.getBalance());
 		Assertions.assertEquals(30, b.getBalance());
+		
+	}
+	
+	@Test
+	public void testReadUL() {
+		
+		UserList ul = UserListService.readUL();
+		Customer c = new Customer("user4", "pass", "Luis", "Merino");
+		ul.addCustomer(c);
+		UserListService.writeUL();
+		UserListService.readUL();
+		System.out.println(ul.getCusList().get(0).getFirstName());
+		Assertions.assertEquals("Luis", ul.getCusList().get(0).getFirstName());
+		
+		
+		Customer d = new Customer("user4", "pass", "Pablo", "Merino");
+		ul.addCustomer(d);
+		UserListService.writeUL();
+		UserListService.readUL();
+		System.out.println(ul.getCusList().get(1).getFirstName());
+		Assertions.assertEquals("Pablo", ul.getCusList().get(1).getFirstName());
+		
+	}
+	@Test
+	public void testWriteUL() {
+		
+		UserListService.writeUL();
+		Assertions.assertEquals(UserList.getInstance(), UserList.getInstance());
+	}
+	@Test
+	public void testListAccounts() {
+		Customer c = new Customer("user4", "pass", "Pablo", "Merino");
+		new Account(20.00, "checking",  c);
+		new Account(20.00, "saving",  c);
+		CustomerService.listAccounts(c);
 		
 	}
 }

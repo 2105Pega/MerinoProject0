@@ -15,12 +15,14 @@ public class Customer extends User {
 	private String address;
 	private String phone;
 	private ArrayList<Account> accountList;
+	private int numberOfAccounts;
 	
 	public Customer(String user, String pass, String firstName, String lastName) {
 		super(user, pass);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		accountList = new ArrayList<Account>();
+		numberOfAccounts = 0;
 	}
 	public Customer(String user, String pass, String firstName, String lastName, String address) {
 		super(user, pass);
@@ -28,6 +30,7 @@ public class Customer extends User {
 		this.lastName = lastName;
 		this.address = address;
 		accountList = new ArrayList<Account>();
+		numberOfAccounts = 0;
 	}
 	public Customer(String user, String pass, String firstName, String lastName, String address, String phone) {
 		super(user, pass);
@@ -36,6 +39,7 @@ public class Customer extends User {
 		this.address = address;
 		this.phone = phone;
 		accountList = new ArrayList<Account>();
+		numberOfAccounts = 0;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -63,6 +67,7 @@ public class Customer extends User {
 	}
 	public void addAccount(Account newAccount) {
 		this.accountList.add(newAccount);
+		numberOfAccounts++;
 		System.out.println("Added " + newAccount + ". The current list of accounts for user "+ this.getUserName() +  " is:");
 		for(int i = 0; i < accountList.size(); i++) {
 			int j = i + 1;
@@ -71,6 +76,9 @@ public class Customer extends User {
 	}
 	public Account getAccount(int index) {
 		return this.accountList.get(index);
+	}
+	public int getNumberOfAccounts() {
+		return numberOfAccounts;
 	}
 	
 	
