@@ -125,11 +125,13 @@ public class LoginService {
 						case "customer":
 							Customer cus = new Customer(user, pass, firstName, lastName);
 							ul.addCustomer(cus);
+							UserListService.writeUL(ul);
 							System.out.println("Created this customer account.");
 							break;
 						case "employee":
 							Employee emp = new Employee(user, pass, firstName, lastName);
 							ul.addEmployee(emp);
+							UserListService.writeUL(ul);
 							System.out.println("Created this employee account.");
 							break;
 						default:

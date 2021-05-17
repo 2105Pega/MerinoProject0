@@ -51,9 +51,10 @@ public class EmployeeService {
 		System.out.println("Good bye " + employee.getFirstName() + " " + employee.getLastName() + ".");
 	}
 
-	public static String approveAccount(Employee employee, Account acc) {
+	public static String approveAccount(Employee employee, Account acc, UserList ul) {
 		if (acc.getApproved().equals("Pending")) {
 			acc.setApproved("Approved");
+			UserListService.writeUL(ul);
 			return "Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
 					+ employee.getLastName() + ".";
 		} else {
@@ -62,10 +63,11 @@ public class EmployeeService {
 
 	}
 
-	public static String cancelAccount(Employee employee, Account acc) {
+	public static String cancelAccount(Employee employee, Account acc, UserList ul) {
 		if (acc.getApproved().equals("Approved")) {
 			acc.setApproved("Cancelled");
 			acc.setBalance(0);
+			UserListService.writeUL(ul);
 			return "Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
 					+ employee.getLastName() + " and its funds have been withdrawn.";
 		} else {
@@ -73,9 +75,10 @@ public class EmployeeService {
 		}
 	}
 
-	public static String rejectAccount(Employee employee, Account acc) {
+	public static String rejectAccount(Employee employee, Account acc, UserList ul) {
 		if (acc.getApproved().equals("Pending")) {
 			acc.setApproved("Cancelled");
+			UserListService.writeUL(ul);
 			acc.setBalance(0);
 			return "Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
 					+ employee.getLastName() + " and it's funds have been withdrawn.";
@@ -150,11 +153,11 @@ public class EmployeeService {
 			}
 			switch (decision) {
 			case "approve":
-				String approve = EmployeeService.approveAccount(emp, acc);
+				String approve = EmployeeService.approveAccount(emp, acc, ul);
 				System.out.println(approve);
 				continue;
 			case "reject":
-				String reject = EmployeeService.rejectAccount(emp, acc);
+				String reject = EmployeeService.rejectAccount(emp, acc, ul);
 				System.out.println(reject);
 				continue;
 			default:
@@ -209,7 +212,7 @@ public class EmployeeService {
 			if (decision.equals("exit")) {
 				break;
 			} else if (decision.equals("cancel")) {
-				String cancel = EmployeeService.cancelAccount(emp, acc);
+				String cancel = EmployeeService.cancelAccount(emp, acc, ul);
 				System.out.println(cancel);
 				continue;
 
@@ -272,6 +275,7 @@ public class EmployeeService {
 			}
 			String withdraw = tServices.withdraw(amount, acc);
 			System.out.println(withdraw);
+			UserListService.writeUL(ul);
 		}
 
 	}
