@@ -403,10 +403,18 @@ public class EmployeeService {
 			Customer cus;
 			try {
 				user = sc.nextLine();
-				cus = UserListService.findCustomer(ul, user);
+				
 			} catch (NoSuchElementException e) {
 				e.printStackTrace();
 				throw new NoSuchElementException("Ctrl-z stops the program. Good bye.");
+			} 
+			
+			try {
+				cus = UserListService.findCustomer(ul, user);
+				if (cus == null) {
+					System.out.println("No customer found with that user name.");
+					continue;
+				}
 			} catch (NullPointerException e) {
 				System.out.println("No customer found with that user name.");
 				continue;
