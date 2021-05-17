@@ -1,6 +1,7 @@
 package com.revature.app;
 import com.revature.accounts.*;
 import com.revature.services.CustomerService;
+import com.revature.services.EmployeeService;
 import com.revature.services.UserListService;
 import com.revature.users.*;
 import java.util.*;
@@ -23,7 +24,11 @@ public class Driver {
 		CustomerService.service(cus, ul, sc);
 		//end of testing CustomerService
 		
+		//Testing EmployeeService		
+		Employee emp = new Employee("isabel", "pass", "Isabel", "Morejon");
+		ul.addEmployee(emp);
 		
+		EmployeeService.service(emp, ul, sc);
 		
 		
 	}

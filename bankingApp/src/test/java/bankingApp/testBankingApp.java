@@ -3,6 +3,7 @@ import org.junit.jupiter.api.*;
 import com.revature.users.*;
 import com.revature.accounts.*;
 import com.revature.services.CustomerService;
+import com.revature.services.EmployeeService;
 import com.revature.services.UserListService;
 import com.revature.services.UserService;
 import com.revature.services.tServices;
@@ -180,7 +181,7 @@ public class testBankingApp {
 	@Test
 	public void testFindEmployee() {
 		UserList ul = UserListService.readUL();
-		Employee e = new Employee("emp100", "pass");
+		Employee e = new Employee("emp100", "pass", "pablo", "morejon");
 		ul.addEmployee(e);
 		
 		Assertions.assertEquals(e, UserService.findEmployee(ul, "emp100"));
@@ -206,6 +207,68 @@ public class testBankingApp {
 		ul.addCustomer(c);
 		new Account(ul, 20.00, "checking",  c);
 		Assertions.assertEquals(null, UserListService.findAccount(ul, 123));
+	}
+	@Test
+	public void testApproveAccount() {
+		UserList ul = UserList.getInstance();
+		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
+		Account a = new Account(ul, 20.00, "checking",  cus);
+		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
+		EmployeeService.approveAccount(e, a);
+		
+		Assertions.assertEquals("Approved", a.getApproved());
+	}
+	@Test
+	public void testCancelAccountPending() {
+		UserList ul = UserList.getInstance();
+		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
+		Account a = new Account(ul, 20.00, "checking",  cus);
+		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
+		EmployeeService.cancelAccount(e, a);
+		
+		Assertions.assertEquals("Pending", a.getApproved());
+	}
+	@Test
+	public void testCancelAccount() {
+		UserList ul = UserList.getInstance();
+		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
+		Account a = new Account(ul, 20.00, "checking",  cus);
+		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
+		EmployeeService.approveAccount(e, a);
+		EmployeeService.cancelAccount(e, a);
+		
+		Assertions.assertEquals("Cancelled", a.getApproved());
+	}
+	@Test
+	public void testRejectAccount() {
+		UserList ul = UserList.getInstance();
+		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
+		Account a = new Account(ul, 20.00, "checking",  cus);
+		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
+		EmployeeService.rejectAccount(e, a);
+		
+		
+		Assertions.assertEquals("Cancelled", a.getApproved());
+	}
+	@Test
+	public void testRejectAccountApproved() {
+		UserList ul = UserList.getInstance();
+		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
+		Account a = new Account(ul, 20.00, "checking",  cus);
+		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
+		EmployeeService.approveAccount(e, a);
+		EmployeeService.rejectAccount(e, a);
+		
+		
+		Assertions.assertEquals("Approved", a.getApproved());
+	}
+	@Test
+	public void testPendingAccounts() {
+		UserList ul = UserList.getInstance();
+		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
+		new Account(ul, 20.00, "checking",  cus);
+		
+		Assertions.assertEquals(1, EmployeeService.pendingAccounts(cus));
 	}
 	
 }

@@ -10,49 +10,31 @@ public class Customer extends User {
 	 * 
 	 */
 	private static final long serialVersionUID = -5125388050983655948L;
-	private String firstName;
-	private String lastName;
+	
 	private String address;
 	private String phone;
 	private ArrayList<Account> accountList;
 	private int numberOfAccounts;
 	
 	public Customer(String user, String pass, String firstName, String lastName) {
-		super(user, pass);
-		this.firstName = firstName;
-		this.lastName = lastName;
+		super(user, pass, firstName, lastName);
 		accountList = new ArrayList<Account>();
 		numberOfAccounts = 0;
 	}
 	public Customer(String user, String pass, String firstName, String lastName, String address) {
-		super(user, pass);
-		this.firstName = firstName;
-		this.lastName = lastName;
+		super(user, pass, firstName, lastName);
 		this.address = address;
 		accountList = new ArrayList<Account>();
 		numberOfAccounts = 0;
 	}
 	public Customer(String user, String pass, String firstName, String lastName, String address, String phone) {
-		super(user, pass);
-		this.firstName = firstName;
-		this.lastName = lastName;
+		super(user, pass, firstName, lastName);
 		this.address = address;
 		this.phone = phone;
 		accountList = new ArrayList<Account>();
 		numberOfAccounts = 0;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+	
 	public String getAddress() {
 		return address;
 	}

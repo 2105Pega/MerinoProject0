@@ -54,4 +54,16 @@ public class UserListService {
 		}
 		return null;
 	}
+
+	public static Customer findCustomer(UserList ul, String user) {
+
+		for (Customer cus : ul.getCusList()) {
+			if (cus.getUserName().equals(user)) {
+				Customer c = cus;
+				return c;
+			}
+
+		}
+		return null;
+	}
 }
