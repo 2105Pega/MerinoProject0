@@ -89,7 +89,7 @@ public class EmployeeService {
 		for (Customer cus : ul.getCusList()) {
 			int pending = EmployeeService.pendingAccounts(cus);
 			System.out.println(list + ". User " + cus.getUserName() + " is assigned to " + cus.getFirstName() + " "
-					+ cus.getLastName() + " who has " + cus.getNumberOfAccounts() + " open accounts, " + pending
+					+ cus.getLastName() + " who has " + cus.getNumberOfAccounts() + " accounts, " + pending
 					+ " of which are pending.");
 			list++;
 		}
@@ -125,6 +125,10 @@ public class EmployeeService {
 
 				accountNumber = Integer.valueOf(response);
 				acc = UserListService.findAccount(ul, accountNumber);
+				if (acc == null) {
+					System.out.println("Account could not be found.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -181,6 +185,10 @@ public class EmployeeService {
 
 				accountNumber = Integer.valueOf(response);
 				acc = UserListService.findAccount(ul, accountNumber);
+				if (acc == null) {
+					System.out.println("Account could not be found.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -250,6 +258,10 @@ public class EmployeeService {
 
 				accountNumber = Integer.valueOf(answer);
 				acc = UserListService.findAccount(ul, accountNumber);
+				if (acc == null) {
+					System.out.println("Account could not be found.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -300,6 +312,10 @@ public class EmployeeService {
 
 				accountNumber = Integer.valueOf(answer);
 				acc = UserListService.findAccount(ul, accountNumber);
+				if (acc == null) {
+					System.out.println("Account could not be found.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -344,6 +360,10 @@ public class EmployeeService {
 
 				accountNumber = Integer.valueOf(answer);
 				receiver = UserListService.findAccount(ul, accountNumber);
+				if (receiver == null) {
+					System.out.println("Account could not be found.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -359,6 +379,10 @@ public class EmployeeService {
 
 				accountNumber = Integer.valueOf(answer);
 				sender = UserListService.findAccount(ul, accountNumber);
+				if (sender == null) {
+					System.out.println("Account could not be found.");
+					continue;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -408,6 +432,9 @@ public class EmployeeService {
 				e.printStackTrace();
 				throw new NoSuchElementException("Ctrl-z stops the program. Good bye.");
 			} 
+			if (user.equals("exit")) {
+				break;
+			}
 			
 			try {
 				cus = UserListService.findCustomer(ul, user);
@@ -419,9 +446,7 @@ public class EmployeeService {
 				System.out.println("No customer found with that user name.");
 				continue;
 			}
-			if (user.equals("exit")) {
-				break;
-			}
+			
 			
 			EmployeeService.customerInfo(cus);
 			continue;

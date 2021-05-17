@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 
 import com.revature.accounts.Account;
 import com.revature.users.Customer;
+import com.revature.users.Employee;
 import com.revature.users.UserList;
 
 public class UserListService {
@@ -61,6 +62,17 @@ public class UserListService {
 			if (cus.getUserName().equals(user)) {
 				Customer c = cus;
 				return c;
+			}
+
+		}
+		return null;
+	}
+	public static Employee findEmployee(UserList ul, String user) {
+
+		for (Employee emp: ul.getEmpList()) {
+			if (emp.getUserName().equals(user)) {
+				Employee e = emp;
+				return e;
 			}
 
 		}
