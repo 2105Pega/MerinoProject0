@@ -50,11 +50,15 @@ public class Customer extends User {
 	public void addAccount(Account newAccount) {
 		this.accountList.add(newAccount);
 		numberOfAccounts++;
+		
+		/*
+		 * Debugging code commented out
 		System.out.println("Added " + newAccount + ". The current list of accounts for user "+ this.getUserName() +  " is:");
 		for(int i = 0; i < accountList.size(); i++) {
 			int j = i + 1;
 			System.out.println(j + ". The " + accountList.get(i));
 		}
+		*/
 	}
 	public Account getAccount(int index) {
 		return this.accountList.get(index);

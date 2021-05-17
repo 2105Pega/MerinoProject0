@@ -31,7 +31,7 @@ public class CustomerService {
 			}
 			switch (response) {
 			case "update":
-				CustomerService.update(customer, sc);
+				CustomerService.update(customer, sc, ul);
 
 				continue;
 
@@ -40,7 +40,7 @@ public class CustomerService {
 
 				continue;
 			case "password":
-				CustomerService.updatePassword(customer, sc);
+				CustomerService.updatePassword(customer, sc, ul);
 
 				continue;
 			case "open":
@@ -62,7 +62,7 @@ public class CustomerService {
 		}
 	}
 
-	public static void updatePassword(Customer customer, Scanner sc) {
+	public static void updatePassword(Customer customer, Scanner sc, UserList ul) {
 		while (true) {
 			System.out.println("Please type your new password.");
 			String pass = sc.nextLine();
@@ -70,6 +70,8 @@ public class CustomerService {
 			String conf = sc.nextLine();
 			if (pass.equals(conf)) {
 				customer.setPassword(pass);
+				UserListService.writeUL(ul);
+				
 				break;
 			} else {
 				System.out.println("The passwords didn't match");
@@ -77,13 +79,15 @@ public class CustomerService {
 		}
 	}
 
-	public static void update(Customer customer, Scanner sc) {
+	public static void update(Customer customer, Scanner sc, UserList ul) {
 		System.out.println("Please provide your new phone number.");
 
 		String newPhone = sc.nextLine();
 		customer.setPhone(newPhone);
+		UserListService.writeUL(ul);
 		System.out.println("Please provide your new address.");
 		String newAddress = sc.nextLine();
+		UserListService.writeUL(ul);
 		customer.setAddress(newAddress);
 		System.out.println("Your information has been updated!");
 
@@ -129,6 +133,7 @@ public class CustomerService {
 				}
 				try {
 					System.out.println(tServices.deposit(amount, customer.getAccount(index)));
+					UserListService.writeUL(ul);
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -169,6 +174,7 @@ public class CustomerService {
 				}
 				try {
 					System.out.println(tServices.withdraw(amount, customer.getAccount(index)));
+					UserListService.writeUL(ul);
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -222,6 +228,7 @@ public class CustomerService {
 					String result = tServices.transfer(amount, customer.getAccount(index),
 							UserListService.findAccount(ul, accountReceiving));
 					System.out.println(result);
+					UserListService.writeUL(ul);
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -292,6 +299,7 @@ public class CustomerService {
 				}
 
 				Account a = new Account(ul, amount, type.toString(), cuslist.toArray(new Customer[cuslist.size()]));
+				UserListService.writeUL(ul);
 				System.out.println("Account [" + a.getAccountNumber() + "] was created with initial balance "
 						+ a.getBalance() + ". Account holders are:");
 				for (int i = 0; i < cuslist.size(); i++) {

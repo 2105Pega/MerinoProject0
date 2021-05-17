@@ -11,7 +11,7 @@ public class Driver {
 		
 		
 		
-		while (true) {
+		
 			try {
 				LoginService.service(ul, sc);
 			} catch (NoSuchElementException e) {
@@ -19,11 +19,11 @@ public class Driver {
 				System.out.println("Force exiting the app.");
 				
 			}
-			break;
+			
 		
-		}
+		
 		UserListService.writeUL(ul);
-		
+		sc.close();
 		
 		
 		
