@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="bankingApp" project="bankingApp" tests="19" started="19" failures="0" errors="0" ignored="0">
+  <testsuite name="bankingApp.testBankingApp" time="0.416" displayname="testBankingApp" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]">
+    <testcase name="testFindEmployee" classname="bankingApp.testBankingApp" time="0.001" displayname="testFindEmployee()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testFindEmployee()]"/>
+    <testcase name="testTransferSame" classname="bankingApp.testBankingApp" time="0.0" displayname="testTransferSame()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testTransferSame()]"/>
+    <testcase name="testFindAccount" classname="bankingApp.testBankingApp" time="0.0" displayname="testFindAccount()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testFindAccount()]"/>
+    <testcase name="testDepositPending" classname="bankingApp.testBankingApp" time="0.0" displayname="testDepositPending()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testDepositPending()]"/>
+    <testcase name="testdeposit" classname="bankingApp.testBankingApp" time="0.0" displayname="testdeposit()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testdeposit()]"/>
+    <testcase name="testTransferCancelled" classname="bankingApp.testBankingApp" time="0.0" displayname="testTransferCancelled()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testTransferCancelled()]"/>
+    <testcase name="testWithdraw" classname="bankingApp.testBankingApp" time="0.0" displayname="testWithdraw()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testWithdraw()]"/>
+    <testcase name="testFindCustomerNull" classname="bankingApp.testBankingApp" time="0.0" displayname="testFindCustomerNull()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testFindCustomerNull()]"/>
+    <testcase name="testListAccounts" classname="bankingApp.testBankingApp" time="0.407" displayname="testListAccounts()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testListAccounts()]"/>
+    <testcase name="testAddAccount" classname="bankingApp.testBankingApp" time="0.0" displayname="testAddAccount()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testAddAccount()]"/>
+    <testcase name="testPendingAccounts" classname="bankingApp.testBankingApp" time="0.0" displayname="testPendingAccounts()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testPendingAccounts()]"/>
+    <testcase name="testUserList" classname="bankingApp.testBankingApp" time="0.0" displayname="testUserList()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testUserList()]"/>
+    <testcase name="testTransferPending" classname="bankingApp.testBankingApp" time="0.001" displayname="testTransferPending()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testTransferPending()]"/>
+    <testcase name="testWithdrawPending" classname="bankingApp.testBankingApp" time="0.001" displayname="testWithdrawPending()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testWithdrawPending()]"/>
+    <testcase name="testFindEmployeeNull" classname="bankingApp.testBankingApp" time="0.0" displayname="testFindEmployeeNull()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testFindEmployeeNull()]"/>
+    <testcase name="testFindCustomer" classname="bankingApp.testBankingApp" time="0.0" displayname="testFindCustomer()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testFindCustomer()]"/>
+    <testcase name="testCustomerList" classname="bankingApp.testBankingApp" time="0.001" displayname="testCustomerList()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testCustomerList()]"/>
+    <testcase name="testTransfer" classname="bankingApp.testBankingApp" time="0.0" displayname="testTransfer()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testTransfer()]"/>
+    <testcase name="testFindAccountNull" classname="bankingApp.testBankingApp" time="0.0" displayname="testFindAccountNull()" uniqueid="[engine:junit-jupiter]/[class:bankingApp.testBankingApp]/[method:testFindAccountNull()]"/>
+  </testsuite>
+</testrun>
