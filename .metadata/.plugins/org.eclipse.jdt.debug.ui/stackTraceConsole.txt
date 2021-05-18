@@ -1,0 +1,4 @@
+System.out.println(tServices.withdraw(19, a));
+		System.out.println(tServices.withdraw(2, a));
+		System.out.println(tServices.withdraw(0, a));
+		

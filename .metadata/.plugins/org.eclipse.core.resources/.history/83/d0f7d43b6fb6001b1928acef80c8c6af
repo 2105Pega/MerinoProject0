@@ -1,0 +1,16 @@
+package com.revature.services;
+
+import com.revature.users.Customer;
+import com.revature.users.UserList;
+
+public class UserService {
+	
+	public static Customer findCustomer(UserList ul, String userName) {
+		for(Customer cus: ul.getCusList()) {
+			if(cus.getUserName() == userName) {
+				return cus;
+			}
+		}
+		return null;
+	}
+}

@@ -1,0 +1,30 @@
+package com.revature.accounts;
+
+public class Account {
+	private Integer accountNumber;
+	private double balance;
+	private boolean approved;
+	
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	public boolean isApproved() {
+		return approved;
+	}
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+	
+	
+	
+	
+}

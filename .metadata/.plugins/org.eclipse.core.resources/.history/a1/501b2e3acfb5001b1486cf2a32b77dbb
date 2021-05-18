@@ -1,0 +1,40 @@
+package com.revature.services;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import com.revature.users.UserList;
+
+public class UserListService {
+	
+	public static void writeUL() {
+		try {
+			FileOutputStream fos = new FileOutputStream("src/main/resources/UserData.txt");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(UserList.getInstance());
+			oos.close();
+			fos.close();
+			
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	public static UserList readUL() {
+		try {
+			FileInputStream fis = new FileInputStream("src/main/resources/UserData.txt");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			UserList uList = (UserList) ois.readObject();
+			ois.close();
+			fis.close();
+			return uList;
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			return UserList.getInstance();
+		} catch (ClassNotFoundException c) {
+			return UserList.getInstance();
+		}
+	}
+}

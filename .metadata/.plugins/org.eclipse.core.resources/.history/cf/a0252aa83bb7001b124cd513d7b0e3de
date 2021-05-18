@@ -1,0 +1,62 @@
+package com.revature.services;
+
+import java.util.Scanner;
+
+import com.revature.users.Customer;
+import com.revature.users.Employee;
+import com.revature.users.UserList;
+
+public class LoginService {
+	public static void service(UserList ul, Scanner sc) {
+
+	}
+
+	public static void login(UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type your username or write 'exit' to exit this menu:");
+			String user = sc.nextLine();
+			if (user.equals("exit")) {
+				break;
+			}
+			if (UserListService.findCustomer(ul, user) == null && UserListService.findEmployee(ul, user) == null) {
+				System.out.println("User not found.");
+				continue;
+			}
+			System.out.println("Please type your password.");
+			String password = sc.nextLine();
+
+			if (UserListService.findCustomer(ul, user) != null) {
+				Customer cus = UserListService.findCustomer(ul, user);
+				if (cus.getPassword().equals(password)) {
+					CustomerService.service(cus, ul, sc);
+					continue;
+				}
+			} else {
+				Employee emp = UserListService.findEmployee(ul, user);
+				if (emp.getPassword().equals(password)) {
+					EmployeeService.service(emp, ul, sc);
+					continue;
+				}
+			}
+
+		}
+	}
+
+	public static void createUser(UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type your desired username or write 'exit' to exit this menu:");
+			String user = sc.nextLine();
+			if (user.equals("exit")) {
+				break;
+			}
+			if(UserListService.findCustomer(ul, user) != null || UserListService.findEmployee(ul, user) != null) {
+				System.out.println("Username " + user + " is unavailable.");
+				continue;
+			} else {
+				
+			}
+		}
+	}
+	
+
+}

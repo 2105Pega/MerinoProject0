@@ -1,0 +1,9 @@
+package com.revature.services;
+
+import com.revature.accounts.Account;
+
+public class AccountService {
+	public static boolean checkExists(int accNumber) {
+		
+	}
+}

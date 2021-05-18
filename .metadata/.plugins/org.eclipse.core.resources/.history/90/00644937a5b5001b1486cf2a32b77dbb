@@ -1,0 +1,50 @@
+package com.revature.accounts;
+
+import java.util.Random;
+
+public class Account {
+	private final Integer accountNumber;
+	private double balance;
+	private String approved;
+	
+	public Account(double balance) {
+		this.balance = balance;
+		Random rand = new Random();
+		Integer generated = rand.nextInt(900000000) + 100000000;
+		accountNumber = generated;
+		approved = "Pending";
+	}
+	
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+	
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	public String getApproved() {
+		return approved;
+	}
+	public void setApproved(String approved) {
+		this.approved = approved;
+	}
+
+	@Override
+	public String toString() {
+		switch (this.getApproved()) {
+		case "Pending":
+			return "Account [" + this.getAccountNumber() + "] is pending and has a balance of: " + this.getBalance() + ".";
+		case "Approved":
+			return "Account [" + this.getAccountNumber() + "] has a balance of: " + this.getBalance() + ".";
+		
+		default:
+			return "Account [" + this.getAccountNumber() + "] has been canceled.";
+	}
+	
+	
+	
+	
+}

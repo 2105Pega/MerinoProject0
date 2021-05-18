@@ -1,0 +1,21 @@
+package com.revature.services;
+
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+import com.revature.users.UserList;
+
+public class LoginService {
+	public static void service(UserList ul, Scanner sc) {
+		
+	}
+	public static void login(UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type your username:");
+			String user = sc.nextLine();
+			if (UserListService.findCustomer(ul, user) == null) {
+			
+			}
+		}
+	}
+}

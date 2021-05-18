@@ -1,0 +1,311 @@
+package com.revature.services;
+
+import java.util.Scanner;
+
+import com.revature.accounts.Account;
+import com.revature.users.Customer;
+import com.revature.users.Employee;
+import com.revature.users.UserList;
+
+public class EmployeeService {
+
+	public static void service(Employee employee, UserList ul, Scanner sc) {
+		System.out.println(
+				"Welcome " + employee.getFirstName() + " " + employee.getLastName() + " this is the list customers:");
+		EmployeeService.displayCustomers(ul);
+		while (true) {
+
+			System.out.println(
+					"To make decisions on pending accounts type 'pending', to cancel an account type 'cancel', to carryout transactions type "
+							+ "'transactions', to view a customer's information type 'customer', to exit type 'exit'.");
+			String response = sc.nextLine();
+			if (response.equals("exit")) {
+				break;
+			}
+			switch (response) {
+			case "pending":
+				EmployeeService.pendingService(employee, ul, sc);
+				break;
+			case "cancel":
+				EmployeeService.cancelService(employee, ul, sc);
+				break;
+			case "transactions":
+
+				break;
+			case "customer":
+
+				break;
+			default:
+				System.out.println("Invalid selection.");
+				continue;
+			}
+
+		}
+	}
+
+	public static String approveAccount(Employee employee, Account acc) {
+		if (acc.getApproved().equals("Pending")) {
+			acc.setApproved("Approved");
+			return "Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
+					+ employee.getLastName() + ".";
+		} else {
+			return "Only pending accounts may be approved.";
+		}
+
+	}
+
+	public static String cancelAccount(Employee employee, Account acc) {
+		if (acc.getApproved().equals("Approved")) {
+			acc.setApproved("Cancelled");
+			acc.setBalance(0);
+			return "Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
+					+ employee.getLastName() + " and its funds have been withdrawn.";
+		} else {
+			return "Only approved accounts may be cancelled.";
+		}
+	}
+
+	public static String rejectAccount(Employee employee, Account acc) {
+		if (acc.getApproved().equals("Pending")) {
+			acc.setApproved("Cancelled");
+			acc.setBalance(0);
+			return "Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
+					+ employee.getLastName() + " and it's funds have been withdrawn.";
+		} else {
+			return "Only pending accounts may be rejected.";
+		}
+	}
+
+	public static void displayCustomers(UserList ul) {
+		int list = 1;
+		for (Customer cus : ul.getCusList()) {
+			int pending = EmployeeService.pendingAccounts(cus);
+			System.out.println(list + ". User " + cus.getUserName() + " is assigned to " + cus.getFirstName() + " "
+					+ cus.getLastName() + " who has " + cus.getNumberOfAccounts() + " open accounts, " + pending
+					+ " of which are pending.");
+			list++;
+		}
+
+	}
+
+	public static int pendingAccounts(Customer cus) {
+		int count = 0;
+		for (int i = 0; i < cus.getNumberOfAccounts(); i++) {
+			if (cus.getAccount(i).getApproved().equals("Pending")) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public static void pendingService(Employee emp, UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please enter the account number you wish to decide upon or type 'exit'");
+			int accountNumber;
+			Account acc;
+			String response = sc.nextLine();
+			if (response.equals("exit")) {
+				break;
+			}
+			try {
+
+				accountNumber = Integer.valueOf(response);
+				acc = UserListService.findAccount(ul, accountNumber);
+			} catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("Pending account could not be found.");
+				continue;
+			}
+			System.out.println(
+					"Account found. Type 'approve' to approve the account, 'reject' to reject it and 'exit' to exit this menu.");
+			String decision = sc.nextLine();
+			if (decision.equals("exit")) {
+				break;
+			}
+			switch (decision) {
+			case "approve":
+				String approve = EmployeeService.approveAccount(emp, acc);
+				System.out.println(approve);
+				continue;
+			case "reject":
+				String reject = EmployeeService.rejectAccount(emp, acc);
+				System.out.println(reject);
+				continue;
+			default:
+				System.out.println("Please type a valid choice.");
+				continue;
+			}
+		}
+	}
+
+	public static void cancelService(Employee emp, UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type the account number you wish to cancel or type 'exit' to exit this menu.");
+			String response = sc.nextLine();
+			int accountNumber;
+			Account acc;
+			if (response.equals("exit")) {
+				break;
+			}
+			try {
+
+				accountNumber = Integer.valueOf(response);
+				acc = UserListService.findAccount(ul, accountNumber);
+			} catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("Account could not be found.");
+				continue;
+
+			}
+			System.out.println("Account found. Account balance is " + acc.getBalance()
+					+ ". Type 'cancel' to cancel the account, or 'exit' to exit this menu.");
+			String decision = sc.nextLine();
+			if (decision.equals("exit")) {
+				break;
+			} else if (decision.equals("cancel")) {
+				String cancel = EmployeeService.cancelAccount(emp, acc);
+				System.out.println(cancel);
+				continue;
+
+			} else {
+
+				System.out.println("Please type a valid choice.");
+				continue;
+			}
+
+		}
+	}
+
+	public static void withdrawService(Employee emp, UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type the amount to withdraw or type 'exit'");
+			double amount;
+			Account acc;
+			String response = sc.nextLine();
+			if (response.equals("exit")) {
+				break;
+			}
+			try {
+				amount = Double.parseDouble(response);
+				amount = Math.round(amount * 100) / 100;
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid entry.");
+
+				continue;
+			}
+			System.out.println("Type the account number to withdraw from.");
+			String answer = sc.nextLine();
+			int accountNumber;
+			try {
+
+				accountNumber = Integer.valueOf(answer);
+				acc = UserListService.findAccount(ul, accountNumber);
+			} catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("Account could not be found.");
+				continue;
+
+			}
+			String withdraw = tServices.withdraw(amount, acc);
+			System.out.println(withdraw);
+		}
+
+	}
+	public static void depositService(Employee emp, UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type the amount to deposit or type 'exit'");
+			double amount;
+			Account acc;
+			String response = sc.nextLine();
+			if (response.equals("exit")) {
+				break;
+			}
+			try {
+				amount = Double.parseDouble(response);
+				amount = Math.round(amount * 100) / 100;
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid entry.");
+
+				continue;
+			}
+			System.out.println("Type the account number to deposit to.");
+			String answer = sc.nextLine();
+			int accountNumber;
+			try {
+
+				accountNumber = Integer.valueOf(answer);
+				acc = UserListService.findAccount(ul, accountNumber);
+			} catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("Account could not be found.");
+				continue;
+
+			}
+			String deposit = tServices.deposit(amount, acc);
+			System.out.println(deposit);
+		}
+
+	}
+	public static void transferService(Employee emp, UserList ul, Scanner sc) {
+		while (true) {
+			System.out.println("Please type the amount to transfer or type 'exit'");
+			double amount;
+			Account receiver;
+			Account sender;
+			String response = sc.nextLine();
+			if (response.equals("exit")) {
+				break;
+			}
+			try {
+				amount = Double.parseDouble(response);
+				amount = Math.round(amount * 100) / 100;
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid entry.");
+
+				continue;
+			}
+			System.out.println("Type the account number to transfer to.");
+			String answer = sc.nextLine();
+			int accountNumber;
+			try {
+
+				accountNumber = Integer.valueOf(answer);
+				receiver = UserListService.findAccount(ul, accountNumber);
+			} catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("Account could not be found.");
+				continue;
+
+			}
+			System.out.println("Type the account number to transfer from.");
+			answer = sc.nextLine();
+			
+			try {
+
+				accountNumber = Integer.valueOf(answer);
+				sender = UserListService.findAccount(ul, accountNumber);
+			} catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("Account could not be found.");
+				continue;
+
+			}
+			
+			String transfer = tServices.transfer(amount, sender, receiver);
+			System.out.println(transfer);
+		}
+
+	}
+}
