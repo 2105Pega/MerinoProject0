@@ -5507,3 +5507,9 @@ org.apache.lucene.store.AlreadyClosedException: Underlying file changed by an ex
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2021-05-17 22:11:42.141
 !MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2021-05-17 22:17:38.119
+!MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2021-05-17 22:17:38.125
+!MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
