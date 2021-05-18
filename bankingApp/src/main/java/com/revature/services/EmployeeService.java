@@ -1,15 +1,20 @@
 package com.revature.services;
 
 import java.util.NoSuchElementException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
 import com.revature.accounts.Account;
+import com.revature.app.Driver;
 import com.revature.users.Customer;
 import com.revature.users.Employee;
 import com.revature.users.UserList;
 
 public class EmployeeService {
-
+	
+	private static final Logger logger = LogManager.getLogger(Driver.class);
+	
 	public static void service(Employee employee, UserList ul, Scanner sc) {
 		System.out.println(
 				"Welcome " + employee.getFirstName() + " " + employee.getLastName() + " this is the list customers:");
@@ -55,6 +60,9 @@ public class EmployeeService {
 		if (acc.getApproved().equals("Pending")) {
 			acc.setApproved("Approved");
 			UserListService.writeUL(ul);
+			logger.trace("Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
+					+ employee.getLastName() + ".");
+			
 			return "Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
 					+ employee.getLastName() + ".";
 		} else {
@@ -68,6 +76,8 @@ public class EmployeeService {
 			acc.setApproved("Cancelled");
 			acc.setBalance(0);
 			UserListService.writeUL(ul);
+			logger.trace("Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
+					+ employee.getLastName() + " and its funds have been withdrawn.");
 			return "Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
 					+ employee.getLastName() + " and its funds have been withdrawn.";
 		} else {
@@ -78,8 +88,10 @@ public class EmployeeService {
 	public static String rejectAccount(Employee employee, Account acc, UserList ul) {
 		if (acc.getApproved().equals("Pending")) {
 			acc.setApproved("Cancelled");
-			UserListService.writeUL(ul);
 			acc.setBalance(0);
+			UserListService.writeUL(ul);
+			logger.trace("Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
+					+ employee.getLastName() + " and it's funds have been withdrawn.");
 			return "Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
 					+ employee.getLastName() + " and it's funds have been withdrawn.";
 		} else {
@@ -276,6 +288,7 @@ public class EmployeeService {
 			String withdraw = tServices.withdraw(amount, acc);
 			System.out.println(withdraw);
 			UserListService.writeUL(ul);
+			logger.trace("Withdrawl attempted. Result: " + withdraw);
 		}
 
 	}
@@ -329,6 +342,8 @@ public class EmployeeService {
 
 			}
 			String deposit = tServices.deposit(amount, acc);
+			UserListService.writeUL(ul);
+			logger.trace("Deposit attempt was made. Result: " + deposit);
 			System.out.println(deposit);
 		}
 
@@ -397,6 +412,8 @@ public class EmployeeService {
 			}
 			
 			String transfer = tServices.transfer(amount, sender, receiver);
+			UserListService.writeUL(ul);
+			logger.trace("Transfer attempt was made. Result: " + transfer);
 			System.out.println(transfer);
 		}
 

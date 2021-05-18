@@ -1,14 +1,20 @@
 package com.revature.services;
 
 import java.util.ArrayList;
+
 import java.util.Scanner;
 
 import com.revature.accounts.Account;
+import com.revature.app.Driver;
 import com.revature.users.Customer;
 import com.revature.users.UserList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CustomerService {
-
+	
+	private static final Logger logger = LogManager.getLogger(Driver.class);
+	
 	public static void service(Customer customer, UserList ul, Scanner sc) {
 
 		while (true) {
@@ -71,6 +77,7 @@ public class CustomerService {
 			if (pass.equals(conf)) {
 				customer.setPassword(pass);
 				UserListService.writeUL(ul);
+				logger.trace("Changed password for user " + customer.getUserName()  );
 				
 				break;
 			} else {
@@ -85,10 +92,12 @@ public class CustomerService {
 		String newPhone = sc.nextLine();
 		customer.setPhone(newPhone);
 		UserListService.writeUL(ul);
+		logger.trace("Updated phone number for user " + customer.getUserName() + ". New phone number is: " + customer.getPhone() + "." );
 		System.out.println("Please provide your new address.");
 		String newAddress = sc.nextLine();
-		UserListService.writeUL(ul);
 		customer.setAddress(newAddress);
+		UserListService.writeUL(ul);
+		logger.trace("Updated address for user " + customer.getUserName() + ". New address is: " + customer.getAddress() + "." );
 		System.out.println("Your information has been updated!");
 
 	}
@@ -132,8 +141,10 @@ public class CustomerService {
 					continue;
 				}
 				try {
-					System.out.println(tServices.deposit(amount, customer.getAccount(index)));
+					String deposit = tServices.deposit(amount, customer.getAccount(index));
+					System.out.println(deposit);
 					UserListService.writeUL(ul);
+					logger.trace("Deposit attempt was made. Result: " + deposit);
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -173,8 +184,10 @@ public class CustomerService {
 					continue;
 				}
 				try {
-					System.out.println(tServices.withdraw(amount, customer.getAccount(index)));
+					String withdraw = tServices.withdraw(amount, customer.getAccount(index));
+					System.out.println(withdraw);
 					UserListService.writeUL(ul);
+					logger.trace("A withdrawl attempt was made. Result: " + withdraw);
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -227,8 +240,11 @@ public class CustomerService {
 				try {
 					String result = tServices.transfer(amount, customer.getAccount(index),
 							UserListService.findAccount(ul, accountReceiving));
-					System.out.println(result);
 					UserListService.writeUL(ul);
+					logger.trace("A transfer attempt was made. Result: " + result);
+					System.out.println(result);
+					
+					
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -300,6 +316,19 @@ public class CustomerService {
 
 				Account a = new Account(ul, amount, type.toString(), cuslist.toArray(new Customer[cuslist.size()]));
 				UserListService.writeUL(ul);
+				StringBuilder sb = new StringBuilder();
+				sb.append("A new account was created. Account number [");
+				sb.append(a.getAccountNumber());
+				sb.append("] has balance ");
+				sb.append(a.getBalance());
+				sb.append(", and is assigned to users:");
+				for (Customer cus: a.getCustomerList()) {
+					
+					sb.append(" " + cus.getUserName() + ";");
+				}
+				
+				String log = sb.toString();
+				logger.trace(log);
 				System.out.println("Account [" + a.getAccountNumber() + "] was created with initial balance "
 						+ a.getBalance() + ". Account holders are:");
 				for (int i = 0; i < cuslist.size(); i++) {

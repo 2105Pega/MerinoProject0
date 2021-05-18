@@ -2,7 +2,6 @@ INDEX VERSION 1.131+C:\Users\luispablo\Desktop\Git\MerinoProject0\.metadata\.plu
 2323355321.index
 3025803315.index
 517022965.index
-1788060170.index
 2677816725.index
 609360629.index
 1165909283.index

@@ -2,11 +2,17 @@ package com.revature.services;
 
 import java.util.Scanner;
 
+import com.revature.app.Driver;
 import com.revature.users.Customer;
 import com.revature.users.Employee;
 import com.revature.users.UserList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoginService {
+	
+	private static final Logger logger = LogManager.getLogger(Driver.class);
+	
 	public static void service(UserList ul, Scanner sc) {
 		while (true) {
 			System.out.println(
@@ -126,12 +132,14 @@ public class LoginService {
 							Customer cus = new Customer(user, pass, firstName, lastName);
 							ul.addCustomer(cus);
 							UserListService.writeUL(ul);
+							logger.trace("Created customer " + cus.getFirstName() + " " + cus.getLastName() + " with username " + cus.getUserName() + "." );
 							System.out.println("Created this customer account.");
 							break;
 						case "employee":
 							Employee emp = new Employee(user, pass, firstName, lastName);
 							ul.addEmployee(emp);
 							UserListService.writeUL(ul);
+							logger.trace("Created employee " + emp.getFirstName() + " " + emp.getLastName() + " with username " + emp.getUserName() + "." );
 							System.out.println("Created this employee account.");
 							break;
 						default:

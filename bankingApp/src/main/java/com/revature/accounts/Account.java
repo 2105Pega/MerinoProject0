@@ -66,6 +66,9 @@ public class Account implements Serializable {
 	public void setApproved(String approved) {
 		this.approved = approved;
 	}
+	public ArrayList<Customer> getCustomerList(){
+		return customerList;
+	}
 	public Customer getCustomer(int i) {
 		return customerList.get(i);
 	}
