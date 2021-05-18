@@ -17,7 +17,7 @@ public class EmployeeService {
 	
 	public static void service(Employee employee, UserList ul, Scanner sc) {
 		System.out.println(
-				"Welcome " + employee.getFirstName() + " " + employee.getLastName() + " this is the list customers:");
+				"Welcome " + employee.getFirstName() + " " + employee.getLastName() + " this is the list of customers:");
 		EmployeeService.displayCustomers(ul);
 		while (true) {
 

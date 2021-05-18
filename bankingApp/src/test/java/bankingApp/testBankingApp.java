@@ -185,60 +185,8 @@ public class testBankingApp {
 		new Account(ul, 20.00, "checking",  c);
 		Assertions.assertEquals(null, UserListService.findAccount(ul, 123));
 	}
-	@Test
-	public void testApproveAccount() {
-		UserList ul = UserList.getInstance();
-		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
-		Account a = new Account(ul, 20.00, "checking",  cus);
-		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
-		EmployeeService.approveAccount(e, a, ul);
-		
-		Assertions.assertEquals("Approved", a.getApproved());
-	}
-	@Test
-	public void testCancelAccountPending() {
-		UserList ul = UserList.getInstance();
-		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
-		Account a = new Account(ul, 20.00, "checking",  cus);
-		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
-		EmployeeService.cancelAccount(e, a, ul);
-		
-		Assertions.assertEquals("Pending", a.getApproved());
-	}
-	@Test
-	public void testCancelAccount() {
-		UserList ul = UserList.getInstance();
-		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
-		Account a = new Account(ul, 20.00, "checking",  cus);
-		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
-		EmployeeService.approveAccount(e, a, ul);
-		EmployeeService.cancelAccount(e, a, ul);
-		
-		Assertions.assertEquals("Cancelled", a.getApproved());
-	}
-	@Test
-	public void testRejectAccount() {
-		UserList ul = UserList.getInstance();
-		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
-		Account a = new Account(ul, 20.00, "checking",  cus);
-		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
-		EmployeeService.rejectAccount(e, a, ul);
-		
-		
-		Assertions.assertEquals("Cancelled", a.getApproved());
-	}
-	@Test
-	public void testRejectAccountApproved() {
-		UserList ul = UserList.getInstance();
-		Customer cus = new Customer("user1000", "pass", "Pablo", "piddy");
-		Account a = new Account(ul, 20.00, "checking",  cus);
-		Employee e = new Employee("emp105", "pass", "pablo", "morejon");
-		EmployeeService.approveAccount(e, a, ul);
-		EmployeeService.rejectAccount(e, a, ul);
-		
-		
-		Assertions.assertEquals("Approved", a.getApproved());
-	}
+	
+	
 	@Test
 	public void testPendingAccounts() {
 		UserList ul = UserList.getInstance();
