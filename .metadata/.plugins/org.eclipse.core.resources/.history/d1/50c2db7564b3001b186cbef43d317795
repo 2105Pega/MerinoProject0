@@ -1,9 +1,0 @@
-package com.revature.users;
-
-public class BankEmployee extends Customer {
-	
-	private double withdraw(double withdrawl) {
-		
-	}
-	
-}

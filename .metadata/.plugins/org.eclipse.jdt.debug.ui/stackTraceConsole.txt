@@ -1,4 +1,2 @@
-System.out.println(tServices.withdraw(19, a));
-		System.out.println(tServices.withdraw(2, a));
-		System.out.println(tServices.withdraw(0, a));
-		
+System.out.println("Information provided: User name "+ user + " for " + firstName + " " + lastName +". Is this correct? Type 'yes' or 'no'");
+				String response = sc.nextLine();
