@@ -1,18 +1,17 @@
 package com.revature.services;
 
 
-import com.revature.users.Customer;
-import com.revature.users.UserList;
+import com.revature.accounts.Account;
+import com.revature.dao.AccountDAO;
+import com.revature.dao.AccountDAOImpl;
+
 
 public class AccountService {
-	public static boolean checkAvailable(int accNumber, UserList ul) {
-		for (Customer cus: ul.getCusList()) {
-			for( int i = 0 ; i < cus.getNumberOfAccounts(); i++) {
-				if (cus.getAccount(i).getAccountNumber() == accNumber) {
-					return false;
-				}
-			}
-		}
-		return true;
+	private AccountDAO aDao = new AccountDAOImpl();
+	
+	
+	public Account getAccount(int accNumber) {
+		return aDao.getAccount(accNumber);
 	}
+	
 }

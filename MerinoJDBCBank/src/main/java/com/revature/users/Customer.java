@@ -11,27 +11,28 @@ public class Customer extends User {
 	 */
 	private static final long serialVersionUID = -5125388050983655948L;
 	
+	
 	private String address;
 	private String phone;
-	private ArrayList<Account> accountList;
+	private ArrayList<Integer> accountList;
 	private int numberOfAccounts;
 	
-	public Customer(String user, String pass, String firstName, String lastName) {
-		super(user, pass, firstName, lastName);
-		accountList = new ArrayList<Account>();
+	public Customer(int userID, String user, String pass, String firstName, String lastName) {
+		super(userID, user, pass, firstName, lastName);
+		accountList = new ArrayList<Integer>();
 		numberOfAccounts = 0;
 	}
-	public Customer(String user, String pass, String firstName, String lastName, String address) {
-		super(user, pass, firstName, lastName);
+	public Customer(int userID, String user, String pass, String firstName, String lastName, String address) {
+		super(userID, user, pass, firstName, lastName);
 		this.address = address;
-		accountList = new ArrayList<Account>();
+		accountList = new ArrayList<Integer>();
 		numberOfAccounts = 0;
 	}
-	public Customer(String user, String pass, String firstName, String lastName, String address, String phone) {
-		super(user, pass, firstName, lastName);
+	public Customer(int userID, String user, String pass, String firstName, String lastName, String address, String phone) {
+		super(userID, user, pass, firstName, lastName);
 		this.address = address;
 		this.phone = phone;
-		accountList = new ArrayList<Account>();
+		accountList = new ArrayList<Integer>();
 		numberOfAccounts = 0;
 	}
 	
@@ -47,7 +48,7 @@ public class Customer extends User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void addAccount(Account newAccount) {
+	public void addAccount(int newAccount) {
 		this.accountList.add(newAccount);
 		numberOfAccounts++;
 		
@@ -60,7 +61,7 @@ public class Customer extends User {
 		}
 		*/
 	}
-	public Account getAccount(int index) {
+	public int getAccount(int index) {
 		return this.accountList.get(index);
 	}
 	public int getNumberOfAccounts() {

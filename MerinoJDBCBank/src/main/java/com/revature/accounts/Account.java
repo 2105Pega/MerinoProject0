@@ -15,34 +15,17 @@ public class Account implements Serializable {
 	private final String accountType;
 	private double balance;
 	private String approved;
-	private ArrayList<Customer> customerList;
+	private ArrayList<Integer> customerList;
 	
 	
 	
-	public Account(UserList ul, double balance, String type, Customer ...customers ) {
+	public Account(Integer accNumber, String accType, double balance, String approved) {
+		this.accountNumber = accNumber;
+		this.accountType = accType;
 		this.balance = balance;
-		while (true) {
-		Random rand = new Random();
-		Integer generated = rand.nextInt(900000000) + 100000000;
-		if (AccountService.checkAvailable(generated, ul)) {
-			accountNumber = generated;
-			break;
-		}
+		this.approved = approved;
+		this.customerList = new ArrayList<Integer>();
 		
-		}
-		
-		approved = "Pending";
-		if (type.equals("Checking")  || type.equals("checking") ) {
-			this.accountType = "Checking";
-		} else {
-			this.accountType ="Savings";
-		}
-		this.customerList = new ArrayList<Customer>();
-		for (Customer customer: customers) {
-			customerList.add(customer);
-			customer.addAccount(this);
-			
-		}
 		
 		
 	}
@@ -66,11 +49,14 @@ public class Account implements Serializable {
 	public void setApproved(String approved) {
 		this.approved = approved;
 	}
-	public ArrayList<Customer> getCustomerList(){
+	public ArrayList<Integer> getCustomerList(){
 		return customerList;
 	}
-	public Customer getCustomer(int i) {
+	public Integer getCustomer(int i) {
 		return customerList.get(i);
+	}
+	public void addCustomer(int cusNumber) {
+		customerList.add(cusNumber);
 	}
 
 	@Override

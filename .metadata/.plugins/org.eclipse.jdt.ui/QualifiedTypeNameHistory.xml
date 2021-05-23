@@ -23,4 +23,7 @@
     <fullyQualifiedTypeName name="com.revature.users.Employee"/>
     <fullyQualifiedTypeName name="com.revature.services.LoginService"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="com.revature.util.ConnectionUtils"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 </qualifiedTypeNameHistroy>

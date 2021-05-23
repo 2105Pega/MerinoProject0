@@ -6,8 +6,11 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="EmployeeSer"/>
+		<item key="selection" value="Canc"/>
 		<list key="findhistory">
+			<item value="canc"/>
+			<item value="Appr"/>
+			<item value="approve"/>
 			<item value="EmployeeSer"/>
 			<item value="CustomerSer"/>
 			<item value="listAcc"/>
@@ -20,9 +23,6 @@
 			<item value="tServ"/>
 			<item value="UserListService.writeUL(ul);"/>
 			<item value=".cancel"/>
-			<item value="update"/>
-			<item value="updatePassword"/>
-			<item value="done"/>
 		</list>
 		<list key="replacehistory">
 			<item value="UserList ul = UserList.getInstance();"/>

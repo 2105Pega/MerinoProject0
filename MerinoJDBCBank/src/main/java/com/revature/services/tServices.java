@@ -1,9 +1,16 @@
 package com.revature.services;
+
 import com.revature.accounts.*;
 
+import com.revature.dao.TDAO;
+import com.revature.dao.TDAOImpl;
+
 public class tServices {
-	
-	public static String withdraw(double amount, Account account) {
+	private TDAO tDao = new TDAOImpl();
+	private AccountService accServ = new AccountService();
+
+	public String withdraw(double amount, int accNumber) {
+		Account account = accServ.getAccount(accNumber);
 		if (account.getApproved() == "Pending") {
 			return "The account is pending approval. No withdrawals allowed until the account is approved.";
 		} else if (account.getApproved() == "Cancelled") {
@@ -11,10 +18,17 @@ public class tServices {
 		}
 		if (account.getBalance() > amount) {
 			if (amount > 0) {
-				double oldBalance = account.getBalance();
-				double newBalance = oldBalance - amount;
-				account.setBalance(newBalance);
-				return "Account [" + account.getAccountNumber() + "] had an account balance of " + oldBalance + " and a withdrawal of " + amount + " was made. The new balance is: " + account.getBalance() + ".";
+
+				if (tDao.withdraw(accNumber, amount)) {
+					double oldBalance = account.getBalance();
+					account = accServ.getAccount(accNumber);
+
+					return "Account [" + account.getAccountNumber() + "] had an account balance of " + oldBalance
+							+ " and a withdrawal of " + amount + " was made. The new balance is: "
+							+ account.getBalance() + ".";
+				} else {
+					return "The withdrawl was unsuccessful";
+				}
 			} else {
 				return "You should withdraw an amount bigger than 0.";
 			}
@@ -22,27 +36,37 @@ public class tServices {
 			return "Insuficient funds to make this withdrawal. Transaction canceled.";
 		}
 	}
-	
-	public static String deposit(double amount, Account account) {
-		if (account.getApproved() == "Pending") {
+
+	public String deposit(double amount, int accNumber) {
+		Account account = accServ.getAccount(accNumber);
+		if (account.getApproved().equals("Pending")) {
 			return "The account is pending approval. No deposits allowed until the account is approved.";
-		} else if (account.getApproved() == "Cancelled") {
+		} else if (account.getApproved().equals("Cancelled") ) {
 			return "This account has been cancelled. Please talk to a local teller.";
 		}
 		if (amount > 0) {
-			double oldBalance = account.getBalance();
-			double newBalance = oldBalance + amount;
-			account.setBalance(newBalance);
-			return "Account [" + account.getAccountNumber() + "] had an account balance of " + oldBalance + " and a deposit of " + amount + " was made. The new balance is: " + account.getBalance() + ".";
+			if (tDao.deposit(accNumber, amount)) {
+				double oldBalance = account.getBalance();
+				account = accServ.getAccount(accNumber);
+
+				return "Account [" + account.getAccountNumber() + "] had an account balance of " + oldBalance
+						+ " and a deposit of " + amount + " was made. The new balance is: "
+						+ account.getBalance() + ".";
+			} else {
+				return "The deposit was unsuccessful";
+			}
 		} else {
 			return "You should deposit an amount bigger than 0.";
 		}
 	}
-	
-	public static String transfer(double amount, Account sender, Account receiver) {
+
+	public String transfer(double amount, int senderNumber, int receiverNumber) {
+		Account sender = accServ.getAccount(senderNumber);
+		Account receiver = accServ.getAccount(receiverNumber);
+		
 		if (amount <= 0) {
 			return "The transfer amount should be bigger than 0.";
-		} else if (sender == receiver) {
+		} else if (senderNumber == receiverNumber) {
 			return "You cannot transfer funds between the same account. Please choose to withdraw or deposit as necessary.";
 		} else {
 			if (sender.getBalance() < amount) {
@@ -55,9 +79,15 @@ public class tServices {
 				return "The recepient account is unable to receive transfers at the moment. Please speak to your recepient.";
 			}
 			if (sender.getApproved().equals("Approved") && receiver.getApproved().equals("Approved")) {
-				tServices.deposit(amount, receiver);
-				String withdrawl = tServices.withdraw(amount, sender);
-				return withdrawl + " The withdrawn amount was transferred to account [" + receiver.getAccountNumber() + "] and should be available immediately.";
+				if(tDao.transfer(amount, senderNumber, receiverNumber)) {
+				
+				return "Account [" + sender.getAccountNumber() + "] had an account balance of " + sender.getBalance()
+						+ " and a withdrawal of " + amount + " was made. The new balance is: "
+						+ accServ.getAccount(senderNumber).getBalance() + "." + " The withdrawn amount was transferred to account [" + receiver.getAccountNumber()
+						+ "] and should be available immediately.";
+				} else {
+					return "Transfer was unsuccessful.";
+				}
 			}
 			return "Unknown account status. Unable to transfer";
 		}

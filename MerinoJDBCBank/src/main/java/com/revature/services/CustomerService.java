@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 public class CustomerService {
 	
 	private static final Logger logger = LogManager.getLogger(Driver.class);
+	private tServices tServ = new tServices();
+	private AccountService accServ = new AccountService();
 	
 	public static void service(Customer customer, UserList ul, Scanner sc) {
 
@@ -61,10 +63,10 @@ public class CustomerService {
 
 	}
 
-	public static void listAccounts(Customer customer) {
+	public void listAccounts(Customer customer) {
 		for (int i = 0; i < customer.getNumberOfAccounts(); i++) {
 			int j = i + 1;
-			System.out.println(j + ". " + customer.getAccount(i));
+			System.out.println(j + ". " + accServ.getAccount(customer.getAccount(i)));
 		}
 	}
 
