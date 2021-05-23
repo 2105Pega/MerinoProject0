@@ -12,6 +12,7 @@ public class User implements Serializable{
 	private String firstName;
 	private String lastName;
 	private int userID;
+	private int userType;
 	
 	public User(int userID, String user, String pass, String firstName, String lastName) {
 		super();
@@ -20,8 +21,26 @@ public class User implements Serializable{
 		password = pass;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		userType = 1;
 	}
-
+	
+	public User(int userID, String user, String pass, String firstName, String lastName, int userType) {
+		super();
+		this.userID = userID;
+		userName = user;
+		password = pass;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userType = userType;
+	}
+	
+	public int getUserID() {
+		return userID;
+	}
+	public int getUserType() {
+		return userType;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -50,6 +69,12 @@ public class User implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", userID=" + userID + ", userType=" + userType + "]";
 	}
 	
 	

@@ -11,6 +11,9 @@ public class tServices {
 
 	public String withdraw(double amount, int accNumber) {
 		Account account = accServ.getAccount(accNumber);
+		if(account == null) {
+			return "Account not found for withdrawl";
+		}
 		if (account.getApproved() == "Pending") {
 			return "The account is pending approval. No withdrawals allowed until the account is approved.";
 		} else if (account.getApproved() == "Cancelled") {
@@ -39,6 +42,9 @@ public class tServices {
 
 	public String deposit(double amount, int accNumber) {
 		Account account = accServ.getAccount(accNumber);
+		if(account == null) {
+			return "Account not found for deposit";
+		}
 		if (account.getApproved().equals("Pending")) {
 			return "The account is pending approval. No deposits allowed until the account is approved.";
 		} else if (account.getApproved().equals("Cancelled") ) {
@@ -63,7 +69,12 @@ public class tServices {
 	public String transfer(double amount, int senderNumber, int receiverNumber) {
 		Account sender = accServ.getAccount(senderNumber);
 		Account receiver = accServ.getAccount(receiverNumber);
-		
+		if(sender == null) {
+			return "Account not found for withdrawl portion. Transfer cancelled.";
+		}
+		if(receiver == null) {
+			return "Account not found for deposit portion. Transfer cancelled.";
+		}
 		if (amount <= 0) {
 			return "The transfer amount should be bigger than 0.";
 		} else if (senderNumber == receiverNumber) {

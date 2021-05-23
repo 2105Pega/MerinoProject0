@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.postgresql.util.PSQLException;
+
 import com.revature.accounts.Account;
 import com.revature.util.ConnectionUtils;
 
@@ -29,7 +31,9 @@ public class AccountDAOImpl implements AccountDAO {
 			}
 			return a;
 
-		} catch (Exception e) {
+		}  catch(PSQLException e1) {
+			return null;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

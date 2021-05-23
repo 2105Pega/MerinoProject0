@@ -3,6 +3,7 @@ import com.revature.accounts.Account;
 import com.revature.services.AccountService;
 import com.revature.services.LoginService;
 import com.revature.services.UserListService;
+import com.revature.services.UserService;
 import com.revature.services.tServices;
 import com.revature.users.*;
 import java.util.*;
@@ -42,20 +43,24 @@ public class Driver {
 		
 		//Testing get Account
 //		AccountService accServ = new AccountService();
-//		Account a = accServ.getAccount(3);
+//		Account a = accServ.getAccount(4);
 //		System.out.println(a);
 //		
 		//Testing withdraw
 //		tServices tServ = new tServices();
-//		System.out.println(tServ.withdraw(500, 1));
+//		System.out.println(tServ.withdraw(500, 4));
 //		
 //		//Testing Deposit
 //		tServices tServ = new tServices();
-//		System.out.println(tServ.deposit(700, 1));
+//		System.out.println(tServ.deposit(700, 4));
 		
 		//Testing Transfer
-//		tServices tServ = new tServices();
-//		System.out.println(tServ.transfer(2000, 1, 3));
+		tServices tServ = new tServices();
+		System.out.println(tServ.transfer(2000, 4, 5));
+		
+		//Testing getUser
+//		UserService uServ = new UserService();
+//		System.out.println(uServ.getUser("test"));
 		
 	}
 	

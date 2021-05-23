@@ -104,10 +104,10 @@ public class CustomerService {
 
 	}
 
-	public static void accounts(Customer customer, UserList ul, Scanner sc) {
+	public void accounts(Customer customer, UserList ul, Scanner sc) {
 		while (true) {
 			System.out.println("These are your current bank accounts:");
-			CustomerService.listAccounts(customer);
+			listAccounts(customer);
 			System.out.println(
 					"If you would like to make a deposit type 'deposit', 'withdraw' for a withdrawl, 'transfer' for a transfer and 'exit' to exit accounts screen.");
 			String response = sc.nextLine();

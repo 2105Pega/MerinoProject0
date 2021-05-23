@@ -3,6 +3,8 @@ package com.revature.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import org.postgresql.util.PSQLException;
+
 import com.revature.util.ConnectionUtils;
 
 public class TDAOImpl implements TDAO {
@@ -19,7 +21,9 @@ public class TDAOImpl implements TDAO {
 			
 			return true;
 			
-		} catch (Exception e) {
+		}  catch(PSQLException e1) {
+			return false;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -39,7 +43,9 @@ public class TDAOImpl implements TDAO {
 			
 			return true;
 			
-		} catch (Exception e) {
+		}  catch(PSQLException e1) {
+			return false;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
