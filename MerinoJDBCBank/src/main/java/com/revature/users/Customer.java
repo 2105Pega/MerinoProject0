@@ -17,6 +17,11 @@ public class Customer extends User {
 	private ArrayList<Integer> accountList;
 	private int numberOfAccounts;
 	
+	@Override
+	public String toString() {
+		return "Customer [address=" + address + ", phone=" + phone + ", accountList=" + accountList
+				+ ", numberOfAccounts=" + numberOfAccounts + "]";
+	}
 	public Customer(int userID, String user, String pass, String firstName, String lastName) {
 		super(userID, user, pass, firstName, lastName);
 		accountList = new ArrayList<Integer>();

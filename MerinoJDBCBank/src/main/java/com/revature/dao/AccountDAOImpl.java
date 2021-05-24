@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -39,6 +40,86 @@ public class AccountDAOImpl implements AccountDAO {
 		}
 
 		return null;
+	}
+
+	@Override
+	public boolean createAccount(Account acc) {
+		// TODO Auto-generated method stub
+		int accID;
+		try  (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "insert into account_table (account_type, account_balance,account_approved) values (?, ?, ?)";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, acc.getAccountType());
+			statement.setDouble(2, acc.getBalance());
+			statement.setString(3, acc.getApproved());
+			statement.execute();
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		try  (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "select max(bank_account_id) as accID from account_table";
+			Statement statement = conn.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			result.next();
+			accID = result.getInt("accID");
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		try  (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "insert into user_account_table " + "values (" + acc.getCustomerList().get(0) + ", " + accID + ") ";
+			for (int i = 1; i< acc.getCustomerList().size(); i++) {
+				sql += ", (" + acc.getCustomerList().get(i) + ", " + accID + ") ";
+			}
+			Statement statement = conn.createStatement();
+			statement.execute(sql);
+			return true;
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteAccount(Integer accNumber) {
+		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "delete from user_account_table where bank_account_id = ?;delete from account_table where bank_account_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, accNumber);
+			statement.setInt(2, accNumber);
+			statement.execute();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setApproved(Integer accNumber, String approved) {
+		// TODO Auto-generated method stub
+		
+		try (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "update account_table set account_approved = ? where bank_account_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, approved);
+			statement.setInt(2, accNumber);
+			statement.execute();
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

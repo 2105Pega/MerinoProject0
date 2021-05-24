@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import com.revature.accounts.Account;
 import com.revature.app.Driver;
+import com.revature.dao.CustomerDAO;
+import com.revature.dao.CustomerDAOImpl;
 import com.revature.users.Customer;
 import com.revature.users.UserList;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +18,7 @@ public class CustomerService {
 	private static final Logger logger = LogManager.getLogger(Driver.class);
 	private tServices tServ = new tServices();
 	private AccountService accServ = new AccountService();
+	private CustomerDAO cDao = new CustomerDAOImpl();
 	
 	public static void service(Customer customer, UserList ul, Scanner sc) {
 
@@ -63,6 +66,10 @@ public class CustomerService {
 
 	}
 
+	public Customer getCustomer(int id) {
+		return cDao.getCustomer(id); 
+	}
+	
 	public void listAccounts(Customer customer) {
 		for (int i = 0; i < customer.getNumberOfAccounts(); i++) {
 			int j = i + 1;

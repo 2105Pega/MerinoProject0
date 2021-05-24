@@ -1,6 +1,7 @@
 package com.revature.app;
 import com.revature.accounts.Account;
 import com.revature.services.AccountService;
+import com.revature.services.CustomerService;
 import com.revature.services.LoginService;
 import com.revature.services.UserListService;
 import com.revature.services.UserService;
@@ -55,13 +56,29 @@ public class Driver {
 //		System.out.println(tServ.deposit(700, 4));
 		
 		//Testing Transfer
-		tServices tServ = new tServices();
-		System.out.println(tServ.transfer(2000, 4, 5));
+//		tServices tServ = new tServices();
+//		System.out.println(tServ.transfer(2000, 4, 5));
 		
 		//Testing getUser
 //		UserService uServ = new UserService();
 //		System.out.println(uServ.getUser("test"));
 		
+		//Testing getCustomer
+//		CustomerService cServ = new CustomerService();
+//		System.out.println(cServ.getCustomer(1));
+		
+		//Testing createAccount
+//		AccountService accServ = new AccountService();
+//		Account a = accServ.getAccount(7);
+//		System.out.println(accServ.createAccount(a));
+		
+		//Testing deleteAccount
+//		AccountService accServ = new AccountService();
+//		System.out.println(accServ.deleteAccount(6));
+		
+		//Testing setApproved
+		AccountService accServ = new AccountService();
+		System.out.println(accServ.setApproved(3, "Approved"));
 	}
 	
 	
