@@ -18,22 +18,23 @@ public class Driver {
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		LoginService lServ = new LoginService();
 //		UserList ul = UserListService.readUL();
 //		
 //		
 //		
 //		
-//			try {
-//				LoginService.service(ul, sc);
-//			} catch (NoSuchElementException e) {
-//				UserListService.writeUL(ul);
-//				System.out.println("Force exiting the application.");
-//				logger.fatal("User exited the app forcefully using a shortcut.");
-//			} catch (RuntimeException e) {
-//				UserListService.writeUL(ul);
-//				System.out.println("Caught unexpected exeption. Closing the application after saving data.");
-//				logger.fatal("Unexpected RuntimeException");
-//			}
+			try {
+				lServ.service(sc);
+			} catch (NoSuchElementException e) {
+				
+				System.out.println("Force exiting the application.");
+				logger.fatal("User exited the app forcefully using a shortcut.");
+			} catch (RuntimeException e) {
+				
+				System.out.println("Caught unexpected exeption. Closing the application.");
+				logger.fatal("Unexpected RuntimeException");
+			}
 //			
 //		
 //		
@@ -178,8 +179,8 @@ public class Driver {
 //		System.out.println(cServ.createCustomer("castellanoIs", "pass", "Isabel", "Castellano"));
 //		
 		//testing EmployeeDao createEmployee
-		EmployeeService eServ = new EmployeeService();
-		System.out.println(eServ.createEmployee("morejonis", "pass5555555555555555555555555555555555555555555555555555555555555555555555555555555555555", "Isabel", "Morejon"));
+//		EmployeeService eServ = new EmployeeService();
+//		System.out.println(eServ.createEmployee("morejonis", "pass", "Isabel", "Morejon"));
 		
 		
 		sc.close();

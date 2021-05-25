@@ -39,3 +39,6 @@
 2021-05-24 19:31:58.355 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: Account [8] had an account balance of 1000.0 and a withdrawal of 500.0 was made. The new balance is: 500.0. The withdrawn amount was transferred to account [1] and should be available immediately.
 2021-05-24 19:32:32.635 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: Insufficient funds to carry the transaction
 2021-05-24 19:32:48.351 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: The recepient account is unable to receive transfers at the moment. Please speak to your recepient.
+2021-05-24 21:54:52.453 [main] TRACE com.revature.app.Driver - Created employee Sample User with username create.
+2021-05-24 22:14:50.819 [main] TRACE com.revature.app.Driver - Account [2] was successfully deleted by user 1.
+2021-05-24 22:21:55.737 [main] FATAL com.revature.app.Driver - Unexpected RuntimeException

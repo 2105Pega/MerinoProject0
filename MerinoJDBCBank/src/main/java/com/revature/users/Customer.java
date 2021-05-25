@@ -75,7 +75,10 @@ public class Customer extends User {
 	public ArrayList<Integer> getAccountList() {
 		return accountList;
 	}
-	
+	public void removeAccount(int deletedAccount) {
+		this.accountList.remove(deletedAccount);
+		numberOfAccounts--;
+	}
 	
 
 }

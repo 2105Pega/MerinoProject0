@@ -15,14 +15,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CustomerService {
-	
+
 	private static final Logger logger = LogManager.getLogger(Driver.class);
 	private tServices tServ = new tServices();
 	private AccountService accServ = new AccountService();
 	private CustomerDAO cDao = new CustomerDAOImpl();
-	
-	
-	
+
 	public void service(Customer customer, Scanner sc) {
 
 		while (true) {
@@ -70,9 +68,9 @@ public class CustomerService {
 	}
 
 	public Customer getCustomer(int id) {
-		return cDao.getCustomer(id); 
+		return cDao.getCustomer(id);
 	}
-	
+
 	public void listAccounts(Customer customer) {
 		for (int i = 0; i < customer.getNumberOfAccounts(); i++) {
 			int j = i + 1;
@@ -89,7 +87,7 @@ public class CustomerService {
 			if (pass.equals(conf)) {
 				customer.setPassword(pass);
 				cDao.updatePassword(customer, pass);
-				logger.trace("Changed password for user " + customer.getUserName()  );
+				logger.trace("Changed password for user " + customer.getUserName());
 				System.out.println("Changed password for user " + customer.getUserName());
 				break;
 			} else {
@@ -103,19 +101,20 @@ public class CustomerService {
 
 		String newPhone = sc.nextLine();
 		customer.setPhone(newPhone);
-		
+
 		System.out.println("Please provide your new address.");
 		String newAddress = sc.nextLine();
 		customer.setAddress(newAddress);
-		if(cDao.updateInfo(customer, newPhone, newAddress)) {
-			logger.trace("Updated phone number for user " + customer.getUserName() + ". New phone number is: " + customer.getPhone() + "." );
-			logger.trace("Updated address for user " + customer.getUserName() + ". New address is: " + customer.getAddress() + "." );
+		if (cDao.updateInfo(customer, newPhone, newAddress)) {
+			logger.trace("Updated phone number for user " + customer.getUserName() + ". New phone number is: "
+					+ customer.getPhone() + ".");
+			logger.trace("Updated address for user " + customer.getUserName() + ". New address is: "
+					+ customer.getAddress() + ".");
 			System.out.println("Your information has been updated!");
 		} else {
-			System.out.println("There was an error updating your information. Please try again or talk to a local teller.");
+			System.out.println(
+					"There was an error updating your information. Please try again or talk to a local teller.");
 		}
-		
-		
 
 	}
 
@@ -124,7 +123,7 @@ public class CustomerService {
 			System.out.println("These are your current bank accounts:");
 			listAccounts(customer);
 			System.out.println(
-					"If you would like to make a deposit type 'deposit', 'withdraw' for a withdrawl, 'transfer' for a transfer and 'exit' to exit accounts screen.");
+					"If you would like to make a deposit type 'deposit', 'withdraw' for a withdrawl, 'transfer' for a transfer, 'delete' to delete a cancelled account, and 'exit' to exit accounts screen.");
 			String response = sc.nextLine();
 			if (response.equals("deposit")) {
 				System.out.println(
@@ -160,7 +159,7 @@ public class CustomerService {
 				try {
 					String deposit = tServ.deposit(amount, customer.getAccount(index));
 					System.out.println(deposit);
-					
+
 					logger.trace("Deposit attempt was made. Result: " + deposit);
 
 					continue;
@@ -257,8 +256,6 @@ public class CustomerService {
 					String result = tServ.transfer(amount, customer.getAccount(index), accountReceiving);
 					logger.trace("A transfer attempt was made. Result: " + result);
 					System.out.println(result);
-					
-					
 
 					continue;
 				} catch (IndexOutOfBoundsException e) {
@@ -271,6 +268,51 @@ public class CustomerService {
 			} else if (response.equals("exit")) {
 
 				break;
+			} else if (response.equals("delete")) {
+				System.out.println(
+						"Type the number listed for the account you wish to delete. For example type '1' for the first account listed.");
+				response = sc.nextLine();
+				int index;
+				try {
+					index = Integer.valueOf(response) - 1;
+					if (index < 0) {
+						System.out.println("Your number should be bigger than 0");
+
+						continue;
+					}
+
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid entry.");
+
+					continue;
+				}
+
+				try {
+					Account acc = accServ.getAccount(customer.getAccount(index));
+					if (acc.getApproved().equals("Cancelled")) {
+						if (accServ.deleteAccount(customer.getAccount(index))) {
+							System.out.println("Account [" + acc.getAccountNumber() + "] was successfully deleted.");
+							logger.trace("Account [" + acc.getAccountNumber() + "] was successfully deleted by user "
+									+ customer.getUserID() + ".");
+							customer.removeAccount(index);
+							continue;
+
+						} else {
+							System.out.println("Account deletion was not successfull");
+							logger.debug("Account [" + acc.getAccountNumber()
+									+ "] was not successfully deleted by user " + customer.getUserID() + ".");
+							continue;
+						}
+
+					} else {
+						System.out.println("Only cancelled accounts may be deleted.");
+					}
+				} catch (IndexOutOfBoundsException e) {
+					System.out.println("You don't have enough accounts to match your choice of account.");
+
+					continue;
+				}
+
 			} else {
 				System.out.println("Please type a valid response.");
 
@@ -280,7 +322,7 @@ public class CustomerService {
 		}
 	}
 
-	public void openAccount(Customer customer,  Scanner sc) {
+	public void openAccount(Customer customer, Scanner sc) {
 		while (true) {
 			System.out.println(
 					"Please write 'Checking' to open a checking account, write 'Savings' to open a savings account, or write 'exit' to exit this menu.");
@@ -323,13 +365,13 @@ public class CustomerService {
 
 							continue;
 						}
-						
+
 						if (newCus == null) {
 							System.out.println("No such user.");
 						} else if (newCus.getUserID() == customer.getUserID()) {
-							System.out.println("Can't add yourself as a joint account holder. You are already included in this request.");
-						}
-							else {
+							System.out.println(
+									"Can't add yourself as a joint account holder. You are already included in this request.");
+						} else {
 							cuslist.add(newCus.getUserID());
 						}
 
@@ -337,58 +379,58 @@ public class CustomerService {
 
 				}
 
-				Account a = new Account(1 , type, amount, "Pending");
-				for (int cus: cuslist) {
+				Account a = new Account(1, type, amount, "Pending");
+				for (int cus : cuslist) {
 					a.addCustomer(cus);
 				}
-				if(accServ.createAccount(a)) {
+				if (accServ.createAccount(a)) {
 					Customer updatedCus = getCustomer(customer.getUserID());
 					a = accServ.getAccount(findLastAccount(updatedCus));
-					
+
 					StringBuilder sb = new StringBuilder();
 					sb.append("A new account was created. Account number [");
 					sb.append(a.getAccountNumber());
 					sb.append("] has balance ");
 					sb.append(a.getBalance());
 					sb.append(", and is assigned to users:");
-					for (int cusID: a.getCustomerList()) {
-						
+					for (int cusID : a.getCustomerList()) {
+
 						Customer cus = getCustomer(cusID);
 						sb.append(" " + cus.getUserName() + ";");
 					}
-					
+
 					String log = sb.toString();
 					logger.trace(log);
 					System.out.println("Account [" + a.getAccountNumber() + "] was created with initial balance "
 							+ a.getBalance() + ". Account holders are:");
 					for (int i = 0; i < cuslist.size(); i++) {
 						int j = i + 1;
-						System.out.println(
-								j + ". " + getCustomer(cuslist.get(i)).getFirstName() + " " + getCustomer(cuslist.get(i)).getLastName() + ".");
+						System.out.println(j + ". " + getCustomer(cuslist.get(i)).getFirstName() + " "
+								+ getCustomer(cuslist.get(i)).getLastName() + ".");
 					}
 					break;
-					
+
 				} else {
-					System.out.println("There was an error creating the account. Please try again or speak to a local teller.");
+					System.out.println(
+							"There was an error creating the account. Please try again or speak to a local teller.");
 				}
-				
-				
-				
+
 			}
 		}
 
 	}
+
 	public int findLastAccount(Customer cus) {
 		int account = 0;
-		for (int x: cus.getAccountList()) {
+		for (int x : cus.getAccountList()) {
 			if (x > account) {
 				account = x;
 			}
 		}
 		return account;
 	}
+
 	public boolean createCustomer(String user, String password, String fName, String lName) {
 		return cDao.createCustomer(user, password, fName, lName);
 	}
 }
-	
