@@ -3,11 +3,12 @@ package com.revature.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import org.postgresql.util.PSQLException;
 
 import com.revature.users.Customer;
-import com.revature.users.User;
+
 import com.revature.util.ConnectionUtils;
 
 public class CustomerDAOImpl implements CustomerDAO {
@@ -31,12 +32,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 			
 
 		} catch (PSQLException e1) {
+			
 			return null;
 		}
 
 		catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			return null;
 		}
 		try (Connection conn = ConnectionUtils.getConnection()) {
 			String sql = "select user_account_table.bank_account_id as bankID from user_account_table where user_account_table.user_id = ?";
@@ -45,6 +48,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				c.addAccount(result.getInt("bankID"));
+				
 			}
 			
 			return c;
@@ -58,6 +62,104 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 
 		return null;
+	}
+
+	@Override
+	public boolean updatePassword(Customer cus, String newPass) {
+		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtils.getConnection()) {
+			String sql = "update user_table set user_pass = ? where user_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, newPass);
+			statement.setInt(2, cus.getUserID());
+			statement.execute();
+			return true;
+					
+					
+		}catch(PSQLException e1) {
+			System.out.println(e1.getMessage());
+			return false;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updateInfo(Customer cus, String newPhone, String newAddress) {
+		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "update personal_information_table set phone_number = ?, address = ? where user_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, newPhone);
+			statement.setString(2, newAddress);
+			statement.setInt(3, cus.getUserID());
+			statement.execute();
+			return true;
+			
+		} catch(PSQLException e1) {
+			System.out.println(e1.getMessage());
+			return false;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean createCustomer(String user, String password, String fName, String lName) {
+		// TODO Auto-generated method stub
+		int userIDnum;
+		try  (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "insert into user_table (user_name, user_pass, user_f_name, user_l_name, user_type) values (?, ?, ?, ?, 1)";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, user);
+			statement.setString(2, password);
+			statement.setString(3, fName);
+			statement.setString(4, lName);
+			statement.execute();
+			
+		
+		} catch(PSQLException e1) {
+			return false;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			
+		}
+		try  (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "select max(user_id) as userID from user_table";
+			Statement statement = conn.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			result.next();
+			userIDnum = result.getInt("userID");
+		
+		} catch(PSQLException e1) {
+			
+			return false;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		try  (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "insert into personal_information_table (user_id)  values (?) ";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, userIDnum);
+			statement.execute();
+			return true;
+		
+		} catch(PSQLException e1) {
+			
+			return false;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

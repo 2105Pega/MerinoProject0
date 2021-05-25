@@ -7,18 +7,28 @@ import java.util.Scanner;
 
 import com.revature.accounts.Account;
 import com.revature.app.Driver;
+
+import com.revature.dao.EmployeeDAO;
+import com.revature.dao.EmployeeDAOImpl;
+import com.revature.dao.TDAO;
+import com.revature.dao.TDAOImpl;
 import com.revature.users.Customer;
 import com.revature.users.Employee;
-import com.revature.users.UserList;
+
 
 public class EmployeeService {
 	
 	private static final Logger logger = LogManager.getLogger(Driver.class);
+	private tServices tServ = new tServices();
+	private AccountService accServ = new AccountService();
+	private CustomerService cServ = new CustomerService();
+	private TDAO tDao = new TDAOImpl();
+	private EmployeeDAO eDao = new EmployeeDAOImpl();
 	
-	public static void service(Employee employee, UserList ul, Scanner sc) {
+	public void service(Employee employee, Scanner sc) {
 		System.out.println(
 				"Welcome " + employee.getFirstName() + " " + employee.getLastName() + " this is the list of customers:");
-		EmployeeService.displayCustomers(ul);
+		displayCustomers();
 		while (true) {
 
 			System.out.println(
@@ -36,16 +46,16 @@ public class EmployeeService {
 			}
 			switch (response) {
 			case "pending":
-				EmployeeService.pendingService(employee, ul, sc);
+				pendingService(employee, sc);
 				break;
 			case "cancel":
-				EmployeeService.cancelService(employee, ul, sc);
+				cancelService(employee,sc);
 				break;
 			case "transactions":
-				EmployeeService.transactionService(employee, ul, sc);
+				transactionService(employee, sc);
 				break;
 			case "customer":
-				EmployeeService.customerDisplayService(employee, ul, sc);
+				customerDisplayService(employee, sc);
 				break;
 			default:
 				System.out.println("Invalid selection.");
@@ -56,54 +66,84 @@ public class EmployeeService {
 		System.out.println("Good bye " + employee.getFirstName() + " " + employee.getLastName() + ".");
 	}
 
-	public static String approveAccount(Employee employee, Account acc, UserList ul) {
+	public String approveAccount(Employee employee, int accNumber) {
+		Account acc = accServ.getAccount(accNumber);
+		if(acc == null) {
+			return "Account doesn't exist";
+		}
 		if (acc.getApproved().equals("Pending")) {
 			acc.setApproved("Approved");
-			UserListService.writeUL(ul);
-			logger.trace("Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
-					+ employee.getLastName() + ".");
+			if (accServ.setApproved(accNumber, "Approved")) {
+				logger.trace("Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
+						+ employee.getLastName() + ".");
+				return "Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
+				+ employee.getLastName() + ".";
+			} else {
+				return "There was an error approving this account. Please talk to your manager.";
+			}
 			
-			return "Account [" + acc.getAccountNumber() + "] has been approved by " + employee.getFirstName() + " "
-					+ employee.getLastName() + ".";
+			
+			
 		} else {
 			return "Only pending accounts may be approved.";
 		}
 
 	}
 
-	public static String cancelAccount(Employee employee, Account acc, UserList ul) {
+	public String cancelAccount(Employee employee, int accNumber) {
+		Account acc = accServ.getAccount(accNumber);
+		if(acc == null) {
+			return "Account doesn't exist";
+		}
 		if (acc.getApproved().equals("Approved")) {
-			acc.setApproved("Cancelled");
-			acc.setBalance(0);
-			UserListService.writeUL(ul);
-			logger.trace("Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
-					+ employee.getLastName() + " and its funds have been withdrawn.");
-			return "Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
-					+ employee.getLastName() + " and its funds have been withdrawn.";
+			
+			if ( accServ.setApproved(accNumber, "Cancelled")) {
+				tDao.withdraw(accNumber, acc.getBalance());
+				acc.setApproved("Cancelled");
+				acc.setBalance(0);
+				logger.trace("Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
+						+ employee.getLastName() + " and its funds have been withdrawn.");
+				return "Account [" + acc.getAccountNumber() + "] has been cancelled by " + employee.getFirstName() + " "
+						+ employee.getLastName() + " and its funds have been withdrawn.";
+			} else {
+				return "There was an error while cancelling the account.";
+			}
+			
 		} else {
 			return "Only approved accounts may be cancelled.";
 		}
 	}
 
-	public static String rejectAccount(Employee employee, Account acc, UserList ul) {
+	public String rejectAccount(Employee employee, int accNumber) {
+		
+		Account acc = accServ.getAccount(accNumber);
+		if(acc == null) {
+			return "Account doesn't exist";
+		}
 		if (acc.getApproved().equals("Pending")) {
-			acc.setApproved("Cancelled");
-			acc.setBalance(0);
-			UserListService.writeUL(ul);
-			logger.trace("Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
-					+ employee.getLastName() + " and it's funds have been withdrawn.");
-			return "Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
-					+ employee.getLastName() + " and it's funds have been withdrawn.";
+			if ( accServ.setApproved(accNumber, "Cancelled")) {
+				tDao.withdraw(accNumber, acc.getBalance());
+				acc.setApproved("Cancelled");
+				acc.setBalance(0);
+				logger.trace("Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
+						+ employee.getLastName() + " and it's funds have been withdrawn.");
+				return "Account [" + acc.getAccountNumber() + "] has been rejected by " + employee.getFirstName() + " "
+						+ employee.getLastName() + " and it's funds have been withdrawn.";
+			} else {
+				return "There was an error while rejecting the account.";
+			}
+			
+			
 		} else {
 			return "Only pending accounts may be rejected.";
 		}
 	}
 
-	public static void displayCustomers(UserList ul) {
+	public void displayCustomers() {
 		int list = 1;
-		for (Customer cus : ul.getCusList()) {
-			int pending = EmployeeService.pendingAccounts(cus);
-			System.out.println(list + ". User " + cus.getUserName() + " is assigned to " + cus.getFirstName() + " "
+		for (Customer cus : eDao.getCustomerList()) {
+			int pending = pendingAccounts(cus);
+			System.out.println(list + ". User ID " + cus.getUserID() + " is assigned to " + cus.getFirstName() + " "
 					+ cus.getLastName() + " who has " + cus.getNumberOfAccounts() + " accounts, " + pending
 					+ " of which are pending.");
 			list++;
@@ -111,17 +151,17 @@ public class EmployeeService {
 
 	}
 
-	public static int pendingAccounts(Customer cus) {
+	public int pendingAccounts(Customer cus) {
 		int count = 0;
 		for (int i = 0; i < cus.getNumberOfAccounts(); i++) {
-			if (cus.getAccount(i).getApproved().equals("Pending")) {
+			if (accServ.getAccount(cus.getAccount(i)).getApproved().equals("Pending")) {
 				count++;
 			}
 		}
 		return count;
 	}
 
-	public static void pendingService(Employee emp, UserList ul, Scanner sc) {
+	public void pendingService(Employee emp, Scanner sc) {
 		while (true) {
 			System.out.println("Please enter the account number you wish to decide upon or type 'exit'");
 			int accountNumber;
@@ -139,7 +179,7 @@ public class EmployeeService {
 			try {
 
 				accountNumber = Integer.valueOf(response);
-				acc = UserListService.findAccount(ul, accountNumber);
+				acc = accServ.getAccount(accountNumber);
 				if (acc == null) {
 					System.out.println("Account could not be found.");
 					continue;
@@ -165,12 +205,14 @@ public class EmployeeService {
 			}
 			switch (decision) {
 			case "approve":
-				String approve = EmployeeService.approveAccount(emp, acc, ul);
+				String approve = approveAccount(emp, acc.getAccountNumber());
 				System.out.println(approve);
+				logger.trace(approve);
 				continue;
 			case "reject":
-				String reject = EmployeeService.rejectAccount(emp, acc, ul);
+				String reject = rejectAccount(emp, acc.getAccountNumber());
 				System.out.println(reject);
+				logger.trace(reject);
 				continue;
 			default:
 				System.out.println("Please type a valid choice.");
@@ -179,7 +221,7 @@ public class EmployeeService {
 		}
 	}
 
-	public static void cancelService(Employee emp, UserList ul, Scanner sc) {
+	public void cancelService(Employee emp, Scanner sc) {
 		while (true) {
 			System.out.println("Please type the account number you wish to cancel or type 'exit' to exit this menu.");
 			
@@ -199,7 +241,7 @@ public class EmployeeService {
 			try {
 
 				accountNumber = Integer.valueOf(response);
-				acc = UserListService.findAccount(ul, accountNumber);
+				acc = accServ.getAccount(accountNumber);
 				if (acc == null) {
 					System.out.println("Account could not be found.");
 					continue;
@@ -222,10 +264,11 @@ public class EmployeeService {
 				throw new NoSuchElementException("Ctrl-z stops the program. Good bye.");
 			}
 			if (decision.equals("exit")) {
-				break;
+				continue;
 			} else if (decision.equals("cancel")) {
-				String cancel = EmployeeService.cancelAccount(emp, acc, ul);
+				String cancel = cancelAccount(emp, acc.getAccountNumber());
 				System.out.println(cancel);
+				logger.trace(cancel);
 				continue;
 
 			} else {
@@ -237,7 +280,7 @@ public class EmployeeService {
 		}
 	}
 
-	public static void withdrawService(Employee emp, UserList ul, Scanner sc) {
+	public void withdrawService(Employee emp, Scanner sc) {
 		while (true) {
 			System.out.println("Please type the amount to withdraw or type 'exit'");
 			double amount;
@@ -272,7 +315,7 @@ public class EmployeeService {
 			try {
 
 				accountNumber = Integer.valueOf(answer);
-				acc = UserListService.findAccount(ul, accountNumber);
+				acc = accServ.getAccount(accountNumber);
 				if (acc == null) {
 					System.out.println("Account could not be found.");
 					continue;
@@ -285,14 +328,13 @@ public class EmployeeService {
 				continue;
 
 			}
-			String withdraw = tServices.withdraw(amount, acc);
+			String withdraw = tServ.withdraw(amount, acc.getAccountNumber());
 			System.out.println(withdraw);
-			UserListService.writeUL(ul);
 			logger.trace("Withdrawl attempted. Result: " + withdraw);
 		}
 
 	}
-	public static void depositService(Employee emp, UserList ul, Scanner sc) {
+	public void depositService(Employee emp, Scanner sc) {
 		while (true) {
 			System.out.println("Please type the amount to deposit or type 'exit'");
 			double amount;
@@ -328,7 +370,7 @@ public class EmployeeService {
 			try {
 
 				accountNumber = Integer.valueOf(answer);
-				acc = UserListService.findAccount(ul, accountNumber);
+				acc = accServ.getAccount(accountNumber);
 				if (acc == null) {
 					System.out.println("Account could not be found.");
 					continue;
@@ -341,14 +383,13 @@ public class EmployeeService {
 				continue;
 
 			}
-			String deposit = tServices.deposit(amount, acc);
-			UserListService.writeUL(ul);
+			String deposit = tServ.deposit(amount, acc.getAccountNumber());
 			logger.trace("Deposit attempt was made. Result: " + deposit);
 			System.out.println(deposit);
 		}
 
 	}
-	public static void transferService(Employee emp, UserList ul, Scanner sc) {
+	public void transferService(Employee emp, Scanner sc) {
 		while (true) {
 			System.out.println("Please type the amount to transfer or type 'exit'");
 			double amount;
@@ -378,7 +419,7 @@ public class EmployeeService {
 			try {
 
 				accountNumber = Integer.valueOf(answer);
-				receiver = UserListService.findAccount(ul, accountNumber);
+				receiver = accServ.getAccount(accountNumber);
 				if (receiver == null) {
 					System.out.println("Account could not be found.");
 					continue;
@@ -397,7 +438,7 @@ public class EmployeeService {
 			try {
 
 				accountNumber = Integer.valueOf(answer);
-				sender = UserListService.findAccount(ul, accountNumber);
+				sender = accServ.getAccount(accountNumber);
 				if (sender == null) {
 					System.out.println("Account could not be found.");
 					continue;
@@ -411,14 +452,13 @@ public class EmployeeService {
 
 			}
 			
-			String transfer = tServices.transfer(amount, sender, receiver);
-			UserListService.writeUL(ul);
+			String transfer = tServ.transfer(amount, sender.getAccountNumber(), receiver.getAccountNumber());
 			logger.trace("Transfer attempt was made. Result: " + transfer);
 			System.out.println(transfer);
 		}
 
 	}
-	public static void transactionService(Employee emp, UserList ul, Scanner sc) {
+	public void transactionService(Employee emp, Scanner sc) {
 		while (true) {
 			System.out.println("Please type 'deposit' to make a deposit, 'withdrawl' to make a withdrawl, 'transfer' to make a transfer, or 'exit' to exit this menu.");
 			String response = sc.nextLine();
@@ -427,13 +467,13 @@ public class EmployeeService {
 			}
 			switch (response) {
 			case "deposit":
-				EmployeeService.depositService(emp, ul, sc);
+				depositService(emp, sc);
 				continue;
 			case "withdrawl":
-				EmployeeService.withdrawService(emp, ul, sc);
+				withdrawService(emp, sc);
 				continue;
 			case "transfer":
-				EmployeeService.transferService(emp, ul, sc);
+				transferService(emp, sc);
 				continue;
 			default:
 				System.out.println("Invalid entry.");
@@ -441,52 +481,64 @@ public class EmployeeService {
 			}
 		}
 	}
-	public static void customerDisplayService(Employee emp, UserList ul, Scanner sc) {
+	public void customerDisplayService(Employee emp, Scanner sc) {
 		while (true) {
-			System.out.println("Please type the user name of the desired customer or type 'exit' to exit.");
-			String user;
+			System.out.println("Please type the user ID of the desired customer or type 'exit' to exit.");
+			int user;
+			String response;
 			Customer cus;
 			try {
-				user = sc.nextLine();
+				response = sc.nextLine();
 				
 			} catch (NoSuchElementException e) {
 				e.printStackTrace();
 				throw new NoSuchElementException("Ctrl-z stops the program. Good bye.");
 			} 
-			if (user.equals("exit")) {
+			if (response.equals("exit")) {
 				break;
 			}
 			
 			try {
-				cus = UserListService.findCustomer(ul, user);
+				user = Integer.valueOf(response);
+				cus = cServ.getCustomer(user);
 				if (cus == null) {
 					System.out.println("No customer found with that user name.");
 					continue;
 				}
+			}catch (NumberFormatException e) {
+				System.out.println("Please type an account number");
+				continue;
 			} catch (NullPointerException e) {
 				System.out.println("No customer found with that user name.");
 				continue;
 			}
 			
 			
-			EmployeeService.customerInfo(cus);
+			customerInfo(cus);
 			continue;
 			
 		}
 	}
-	public static void customerInfo(Customer cus) {
-		System.out.println("User " + cus.getUserName() + " is " + cus.getFirstName() + " " + cus.getLastName() + ".");
+	public void customerInfo(Customer cus) {
+		System.out.println("User ID" + cus.getUserID() + " is " + cus.getFirstName() + " " + cus.getLastName() + ".");
 		System.out.println("Phone number: " + cus.getPhone() + ".");
 		System.out.println("Address: " + cus.getAddress() + ".");
 		System.out.println("Account information:");
 		int j;
 		for(int i = 0;i< cus.getNumberOfAccounts(); i++) {
 			j = i +1;
-			System.out.println(j + ". " + cus.getAccount(i));
+			System.out.println(j + ". " + accServ.getAccount(cus.getAccount(i)));
 		}
 		if (cus.getNumberOfAccounts() == 0) {
 			System.out.println("This customer has no accounts registered.");
 		}
 		
+	}
+	
+	public Employee getEmployee(int userID) {
+		return eDao.getEmployee(userID);
+	}
+	public boolean createEmployee(String user, String password, String fName, String lName) {
+		return eDao.createEmployee(user, password, fName, lName);
 	}
 }

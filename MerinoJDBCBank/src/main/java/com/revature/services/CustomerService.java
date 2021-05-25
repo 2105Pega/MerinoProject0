@@ -8,8 +8,9 @@ import com.revature.accounts.Account;
 import com.revature.app.Driver;
 import com.revature.dao.CustomerDAO;
 import com.revature.dao.CustomerDAOImpl;
+
 import com.revature.users.Customer;
-import com.revature.users.UserList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +21,9 @@ public class CustomerService {
 	private AccountService accServ = new AccountService();
 	private CustomerDAO cDao = new CustomerDAOImpl();
 	
-	public static void service(Customer customer, UserList ul, Scanner sc) {
+	
+	
+	public void service(Customer customer, Scanner sc) {
 
 		while (true) {
 			// Welcome
@@ -42,20 +45,20 @@ public class CustomerService {
 			}
 			switch (response) {
 			case "update":
-				CustomerService.update(customer, sc, ul);
+				update(customer, sc);
 
 				continue;
 
 			case "accounts":
-				CustomerService.accounts(customer, ul, sc);
+				accounts(customer, sc);
 
 				continue;
 			case "password":
-				CustomerService.updatePassword(customer, sc, ul);
+				updatePassword(customer, sc);
 
 				continue;
 			case "open":
-				CustomerService.openAccount(customer, ul, sc);
+				openAccount(customer, sc);
 			default:
 				System.out.println("Please select and type one of the options provided.");
 				break;
@@ -77,7 +80,7 @@ public class CustomerService {
 		}
 	}
 
-	public static void updatePassword(Customer customer, Scanner sc, UserList ul) {
+	public void updatePassword(Customer customer, Scanner sc) {
 		while (true) {
 			System.out.println("Please type your new password.");
 			String pass = sc.nextLine();
@@ -85,9 +88,9 @@ public class CustomerService {
 			String conf = sc.nextLine();
 			if (pass.equals(conf)) {
 				customer.setPassword(pass);
-				UserListService.writeUL(ul);
+				cDao.updatePassword(customer, pass);
 				logger.trace("Changed password for user " + customer.getUserName()  );
-				
+				System.out.println("Changed password for user " + customer.getUserName());
 				break;
 			} else {
 				System.out.println("The passwords didn't match");
@@ -95,23 +98,28 @@ public class CustomerService {
 		}
 	}
 
-	public static void update(Customer customer, Scanner sc, UserList ul) {
+	public void update(Customer customer, Scanner sc) {
 		System.out.println("Please provide your new phone number.");
 
 		String newPhone = sc.nextLine();
 		customer.setPhone(newPhone);
-		UserListService.writeUL(ul);
-		logger.trace("Updated phone number for user " + customer.getUserName() + ". New phone number is: " + customer.getPhone() + "." );
+		
 		System.out.println("Please provide your new address.");
 		String newAddress = sc.nextLine();
 		customer.setAddress(newAddress);
-		UserListService.writeUL(ul);
-		logger.trace("Updated address for user " + customer.getUserName() + ". New address is: " + customer.getAddress() + "." );
-		System.out.println("Your information has been updated!");
+		if(cDao.updateInfo(customer, newPhone, newAddress)) {
+			logger.trace("Updated phone number for user " + customer.getUserName() + ". New phone number is: " + customer.getPhone() + "." );
+			logger.trace("Updated address for user " + customer.getUserName() + ". New address is: " + customer.getAddress() + "." );
+			System.out.println("Your information has been updated!");
+		} else {
+			System.out.println("There was an error updating your information. Please try again or talk to a local teller.");
+		}
+		
+		
 
 	}
 
-	public void accounts(Customer customer, UserList ul, Scanner sc) {
+	public void accounts(Customer customer, Scanner sc) {
 		while (true) {
 			System.out.println("These are your current bank accounts:");
 			listAccounts(customer);
@@ -150,9 +158,9 @@ public class CustomerService {
 					continue;
 				}
 				try {
-					String deposit = tServices.deposit(amount, customer.getAccount(index));
+					String deposit = tServ.deposit(amount, customer.getAccount(index));
 					System.out.println(deposit);
-					UserListService.writeUL(ul);
+					
 					logger.trace("Deposit attempt was made. Result: " + deposit);
 
 					continue;
@@ -193,9 +201,8 @@ public class CustomerService {
 					continue;
 				}
 				try {
-					String withdraw = tServices.withdraw(amount, customer.getAccount(index));
+					String withdraw = tServ.withdraw(amount, customer.getAccount(index));
 					System.out.println(withdraw);
-					UserListService.writeUL(ul);
 					logger.trace("A withdrawl attempt was made. Result: " + withdraw);
 
 					continue;
@@ -247,9 +254,7 @@ public class CustomerService {
 					continue;
 				}
 				try {
-					String result = tServices.transfer(amount, customer.getAccount(index),
-							UserListService.findAccount(ul, accountReceiving));
-					UserListService.writeUL(ul);
+					String result = tServ.transfer(amount, customer.getAccount(index), accountReceiving);
 					logger.trace("A transfer attempt was made. Result: " + result);
 					System.out.println(result);
 					
@@ -275,7 +280,7 @@ public class CustomerService {
 		}
 	}
 
-	public static void openAccount(Customer customer, UserList ul, Scanner sc) {
+	public void openAccount(Customer customer,  Scanner sc) {
 		while (true) {
 			System.out.println(
 					"Please write 'Checking' to open a checking account, write 'Savings' to open a savings account, or write 'exit' to exit this menu.");
@@ -300,55 +305,90 @@ public class CustomerService {
 
 					continue;
 				}
-				ArrayList<Customer> cuslist = new ArrayList<Customer>();
-				cuslist.add(customer);
+				ArrayList<Integer> cuslist = new ArrayList<Integer>();
+				cuslist.add(customer.getUserID());
 				while (true) {
 					System.out.println(
-							"Please type the user name of any joint account holders or type 'done' when no more users need to be added.");
+							"Please type the user id of any joint account holders or type 'done' when no more users need to be added.");
 					String answer = sc.nextLine();
 					if (answer.equals("done")) {
 						break;
 					} else {
-						Customer newCus = UserService.findCustomer(ul, answer);
+						Customer newCus;
+						try {
+							int userID = Integer.valueOf(answer);
+							newCus = getCustomer(userID);
+						} catch (NumberFormatException e) {
+							System.out.println("Invalid entry.");
+
+							continue;
+						}
+						
 						if (newCus == null) {
 							System.out.println("No such user.");
-						} else if (newCus == customer) {
+						} else if (newCus.getUserID() == customer.getUserID()) {
 							System.out.println("Can't add yourself as a joint account holder. You are already included in this request.");
 						}
 							else {
-							cuslist.add(newCus);
+							cuslist.add(newCus.getUserID());
 						}
 
 					}
 
 				}
 
-				Account a = new Account(ul, amount, type.toString(), cuslist.toArray(new Customer[cuslist.size()]));
-				UserListService.writeUL(ul);
-				StringBuilder sb = new StringBuilder();
-				sb.append("A new account was created. Account number [");
-				sb.append(a.getAccountNumber());
-				sb.append("] has balance ");
-				sb.append(a.getBalance());
-				sb.append(", and is assigned to users:");
-				for (Customer cus: a.getCustomerList()) {
+				Account a = new Account(1 , type, amount, "Pending");
+				for (int cus: cuslist) {
+					a.addCustomer(cus);
+				}
+				if(accServ.createAccount(a)) {
+					Customer updatedCus = getCustomer(customer.getUserID());
+					a = accServ.getAccount(findLastAccount(updatedCus));
 					
-					sb.append(" " + cus.getUserName() + ";");
+					StringBuilder sb = new StringBuilder();
+					sb.append("A new account was created. Account number [");
+					sb.append(a.getAccountNumber());
+					sb.append("] has balance ");
+					sb.append(a.getBalance());
+					sb.append(", and is assigned to users:");
+					for (int cusID: a.getCustomerList()) {
+						
+						Customer cus = getCustomer(cusID);
+						sb.append(" " + cus.getUserName() + ";");
+					}
+					
+					String log = sb.toString();
+					logger.trace(log);
+					System.out.println("Account [" + a.getAccountNumber() + "] was created with initial balance "
+							+ a.getBalance() + ". Account holders are:");
+					for (int i = 0; i < cuslist.size(); i++) {
+						int j = i + 1;
+						System.out.println(
+								j + ". " + getCustomer(cuslist.get(i)).getFirstName() + " " + getCustomer(cuslist.get(i)).getLastName() + ".");
+					}
+					break;
+					
+				} else {
+					System.out.println("There was an error creating the account. Please try again or speak to a local teller.");
 				}
 				
-				String log = sb.toString();
-				logger.trace(log);
-				System.out.println("Account [" + a.getAccountNumber() + "] was created with initial balance "
-						+ a.getBalance() + ". Account holders are:");
-				for (int i = 0; i < cuslist.size(); i++) {
-					int j = i + 1;
-					System.out.println(
-							j + ". " + cuslist.get(i).getFirstName() + " " + cuslist.get(i).getLastName() + ".");
-				}
-				break;
+				
+				
 			}
 		}
 
 	}
-
+	public int findLastAccount(Customer cus) {
+		int account = 0;
+		for (int x: cus.getAccountList()) {
+			if (x > account) {
+				account = x;
+			}
+		}
+		return account;
+	}
+	public boolean createCustomer(String user, String password, String fName, String lName) {
+		return cDao.createCustomer(user, password, fName, lName);
+	}
 }
+	

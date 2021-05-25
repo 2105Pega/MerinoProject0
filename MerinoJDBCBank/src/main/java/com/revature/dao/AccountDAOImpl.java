@@ -54,7 +54,9 @@ public class AccountDAOImpl implements AccountDAO {
 			statement.setString(3, acc.getApproved());
 			statement.execute();
 		
-		} catch (Exception e) {
+		} catch(PSQLException e1) {
+			return false;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			return false;
@@ -66,13 +68,15 @@ public class AccountDAOImpl implements AccountDAO {
 			result.next();
 			accID = result.getInt("accID");
 		
-		} catch (Exception e) {
+		} catch(PSQLException e1) {
+			return false;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			return false;
 		}
 		try  (Connection conn = ConnectionUtils.getConnection()){
-			String sql = "insert into user_account_table " + "values (" + acc.getCustomerList().get(0) + ", " + accID + ") ";
+			String sql = "insert into user_account_table values (" + acc.getCustomerList().get(0) + ", " + accID + ") ";
 			for (int i = 1; i< acc.getCustomerList().size(); i++) {
 				sql += ", (" + acc.getCustomerList().get(i) + ", " + accID + ") ";
 			}
@@ -80,7 +84,10 @@ public class AccountDAOImpl implements AccountDAO {
 			statement.execute(sql);
 			return true;
 		
-		} catch (Exception e) {
+		} catch(PSQLException e1) {
+			
+			return false;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -97,7 +104,10 @@ public class AccountDAOImpl implements AccountDAO {
 			statement.setInt(2, accNumber);
 			statement.execute();
 			return true;
-		} catch (Exception e) {
+		} catch(PSQLException e1) {
+			System.out.println(e1.getMessage());
+			return false;
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -107,7 +117,9 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public boolean setApproved(Integer accNumber, String approved) {
 		// TODO Auto-generated method stub
-		
+		if (getAccount(accNumber) == null) {
+			return false;
+		}
 		try (Connection conn = ConnectionUtils.getConnection()){
 			String sql = "update account_table set account_approved = ? where bank_account_id = ?";
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -115,6 +127,8 @@ public class AccountDAOImpl implements AccountDAO {
 			statement.setInt(2, accNumber);
 			statement.execute();
 			return true;
+		}catch(PSQLException e1) {
+			return false;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

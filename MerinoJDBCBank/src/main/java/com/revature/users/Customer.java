@@ -72,6 +72,9 @@ public class Customer extends User {
 	public int getNumberOfAccounts() {
 		return numberOfAccounts;
 	}
+	public ArrayList<Integer> getAccountList() {
+		return accountList;
+	}
 	
 	
 
