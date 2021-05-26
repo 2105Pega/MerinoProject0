@@ -2,8 +2,6 @@ package com.revature.users;
 
 import java.util.ArrayList;
 
-import com.revature.accounts.Account;
-
 public class Customer extends User {
 		
 	/**

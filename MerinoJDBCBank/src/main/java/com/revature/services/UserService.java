@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
-import com.revature.users.Customer;
-import com.revature.users.Employee;
+
 import com.revature.users.User;
-import com.revature.users.UserList;
+
 
 public class UserService {
 	private UserDAO uDao = new UserDAOImpl();

@@ -1,53 +1,165 @@
 package bankingApp;
+
 import org.junit.jupiter.api.*;
 import com.revature.users.*;
 import com.revature.accounts.*;
+import com.revature.exceptions.InvalidActionException;
 import com.revature.services.AccountService;
+import com.revature.services.AdminService;
 import com.revature.services.CustomerService;
 import com.revature.services.EmployeeService;
-import com.revature.services.UserListService;
+
 import com.revature.services.UserService;
 import com.revature.services.tServices;
 
 public class testBankingApp {
-	
-	
-	
-	
+
 	@Test
 	public void testGetAccount() {
-		
+
 		AccountService accServ = new AccountService();
 		Account a = accServ.getAccount(8);
 		Assertions.assertEquals(true, a instanceof Account);
-		
+
 	}
-	
-	
+
 	@Test
 	public void testWithdrawAndDepositPending() {
 		tServices tServ = new tServices();
 		AccountService accServ = new AccountService();
-		tServ.withdraw(500, 11);
-		Assertions.assertEquals(4500, accServ.getAccount(11).getBalance());
-		tServ.deposit(500, 11);
-		Assertions.assertEquals(4500, accServ.getAccount(11).getBalance());
+		try {
+			tServ.withdraw(500, 11);
+			Assertions.assertEquals(3500, accServ.getAccount(11).getBalance());
+
+		} catch (InvalidActionException e) {
+			Assertions.assertEquals(3500, accServ.getAccount(11).getBalance());
+		}
+		try {
+			tServ.deposit(500, 11);
+			Assertions.assertEquals(3500, accServ.getAccount(11).getBalance());
+
+		} catch (InvalidActionException e) {
+			Assertions.assertEquals(3500, accServ.getAccount(11).getBalance());
+		}
+
 	}
+
 	@Test
 	public void testWithdrawAndDeposit() {
 		tServices tServ = new tServices();
 		AccountService accServ = new AccountService();
-		tServ.withdraw(500, 1);
-		Assertions.assertEquals(2100, accServ.getAccount(1).getBalance());
-		tServ.deposit(500, 1);
-		Assertions.assertEquals(2600, accServ.getAccount(1).getBalance());
-		
+		try {
+			tServ.withdraw(500, 1);
+			Assertions.assertEquals(2100, accServ.getAccount(1).getBalance());
+
+		} catch (InvalidActionException e) {
+
+		}
+		try {
+			tServ.deposit(500, 1);
+			Assertions.assertEquals(2600, accServ.getAccount(1).getBalance());
+
+		} catch (InvalidActionException e) {
+
+		}
+
 	}
-	
-	
-	
-	
-	//Tests that became obsolete after the implementation of database usage
+
+	@Test
+	public void testTransfer() {
+		tServices tServ = new tServices();
+		AccountService accServ = new AccountService();
+		try {
+			tServ.transfer(100, 1, 8);
+			Assertions.assertEquals(2500, accServ.getAccount(1).getBalance());
+			Assertions.assertEquals(600, accServ.getAccount(8).getBalance());
+		} catch (InvalidActionException e) {
+
+		}
+		try {
+			tServ.transfer(100, 8, 1);
+			Assertions.assertEquals(2600, accServ.getAccount(1).getBalance());
+			Assertions.assertEquals(500, accServ.getAccount(8).getBalance());
+		} catch (InvalidActionException e) {
+
+		}
+	}
+
+	@Test
+	public void testGetUser() {
+		UserService uServ = new UserService();
+		Assertions.assertEquals(true, uServ.getUser("merinolu") instanceof User);
+	}
+
+	@Test
+	public void testGetCustomer() {
+		CustomerService cServ = new CustomerService();
+		Assertions.assertEquals("merinolu", cServ.getCustomer(1).getUserName());
+	}
+
+	@Test
+	public void testSetApproved() {
+		AccountService accServ = new AccountService();
+		accServ.setApproved(10, "Approved");
+		Assertions.assertEquals("Approved", accServ.getAccount(10).getApproved());
+		accServ.setApproved(10, "Cancelled");
+		Assertions.assertEquals("Cancelled", accServ.getAccount(10).getApproved());
+	}
+
+	@Test
+	public void testApproveAccount() {
+		EmployeeService eServ = new EmployeeService();
+		AccountService accServ = new AccountService();
+		Employee e = new Employee(1, "morejonpa", "pass", "Pablo", "Morejon", 2);
+		eServ.approveAccount(e, 11);
+		Assertions.assertEquals("Approved", accServ.getAccount(11).getApproved());
+		accServ.setApproved(11, "Pending");
+		Assertions.assertEquals("Pending", accServ.getAccount(11).getApproved());
+
+	}
+	// testing employeeDao getEmployee
+//	EmployeeService eServ = new EmployeeService();
+//	System.out.println(eServ.getEmployee(2));
+
+	@Test
+	public void testGetEmployee() {
+		EmployeeService eServ = new EmployeeService();
+		Assertions.assertEquals(true, eServ.getEmployee(2) instanceof Employee);
+	}
+
+	@Test
+	public void testAdminUpdatePassword() {
+		AdminService admServ = new AdminService();
+		UserService uServ = new UserService();
+		admServ.updatePassword(uServ.getUser("merinolu"), "pass");
+		Assertions.assertEquals("pass", uServ.getUser("merinolu").getPassword());
+		admServ.updatePassword(uServ.getUser("merinolu"), "password");
+		Assertions.assertEquals("password", uServ.getUser("merinolu").getPassword());
+	}
+
+	@Test
+	public void testAdminUpdateName() {
+		AdminService admServ = new AdminService();
+		UserService uServ = new UserService();
+		admServ.updateName(uServ.getUser("merinolu"), "Luis Pablo", "Merino Morejon");
+		Assertions.assertEquals("Luis Pablo", uServ.getUser("merinolu").getFirstName());
+		admServ.updateName(uServ.getUser("merinolu"), "Luis", "Merino");
+		Assertions.assertEquals("Luis", uServ.getUser("merinolu").getFirstName());
+	}
+
+	@Test
+	public void testGetUserByID() {
+		UserService uServ = new UserService();
+		Assertions.assertEquals(true, uServ.getUser(1) instanceof User);
+	}
+
+	@Test
+	public void testGetAdmin() {
+		AdminService admServ = new AdminService();
+		Assertions.assertEquals(true, admServ.getAdmin(12) instanceof Admin);
+	}
+
+	// Tests that became obsolete after the implementation of database usage
 //	@Test
 //	public void testAddAccount() {
 //		UserList ul = UserList.getInstance();
@@ -232,5 +344,5 @@ public class testBankingApp {
 //		
 //		Assertions.assertEquals(1, EmployeeService.pendingAccounts(cus));
 //	}
-	
+
 }

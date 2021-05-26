@@ -1,10 +1,9 @@
 package com.revature.accounts;
-import com.revature.services.AccountService;
-import com.revature.users.*;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class Account implements Serializable {
 	/**

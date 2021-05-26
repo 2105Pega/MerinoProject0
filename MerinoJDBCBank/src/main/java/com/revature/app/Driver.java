@@ -1,16 +1,20 @@
 package com.revature.app;
 
-import com.revature.accounts.Account;
-import com.revature.services.AccountService;
-import com.revature.services.AdminService;
-import com.revature.services.CustomerService;
-import com.revature.services.EmployeeService;
+//import com.revature.accounts.Account;
+//import com.revature.exceptions.InvalidActionException;
+//import com.revature.services.AccountService;
+//import com.revature.services.AdminService;
+//import com.revature.services.CustomerService;
+//import com.revature.services.EmployeeService;
+//
+//import com.revature.services.UserListService;
+//import com.revature.services.UserService;
+//import com.revature.services.tServices;
+//import com.revature.users.*;
+
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import com.revature.services.LoginService;
-import com.revature.services.UserListService;
-import com.revature.services.UserService;
-import com.revature.services.tServices;
-import com.revature.users.*;
-import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,33 +23,44 @@ public class Driver {
 	private static final Logger logger = LogManager.getLogger(Driver.class);
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-
+		
+		
+		//Code obsoleted by implementation of database
 //		UserList ul = UserListService.readUL();
+		
+
+		
+		
+		Scanner sc = new Scanner(System.in);
 //		
-//		
-//		
-//		LoginService lServ = new LoginService();
-//		try {
-//			lServ.service(sc);
-//		} catch (NoSuchElementException e) {
-//
-//			System.out.println("Force exiting the application.");
-//			logger.fatal("User exited the app forcefully using a shortcut.");
-//		} catch (RuntimeException e) {
-//
-//			System.out.println("Caught unexpected exeption. Closing the application.");
-//			logger.fatal("Unexpected RuntimeException");
-//		}
-//			
-//		
-//		
+		LoginService lServ = new LoginService();
+		try {
+			lServ.service(sc);
+		} catch (NoSuchElementException e) {
+
+			System.out.println("Force exiting the application.");
+			logger.fatal("User exited the application forcefully using a shortcut.");
+		} catch (RuntimeException e) {
+
+			System.out.println("Caught unexpected exception. Closing the application.");
+			logger.fatal("Unexpected RuntimeException");
+		}
+
+
+		
+		
+		//Code obsoleted by implementation of database
 //		UserListService.writeUL(ul);
 //		sc.close();
 //		logger.trace("Exited the application correctly after writing the state of our UserList.");
 //		
 //		
 
+		
+		
+		
+		//Manual unit tests for program features.
+		
 		// Testing get Account
 //		AccountService accServ = new AccountService();
 //		Account a = accServ.getAccount(8);
@@ -249,6 +264,13 @@ public class Driver {
 //		AdminService admServ = new AdminService();
 //		Admin adm = admServ.getAdmin(12);
 //		admServ.service(adm, sc);
+		
+		//testing custom exception
+//		try {
+//			throw new InvalidActionException("Such and such");
+//		} catch(InvalidActionException e) {
+//			System.out.println(e.getMessage());
+//		}
 		
 		
 		sc.close();

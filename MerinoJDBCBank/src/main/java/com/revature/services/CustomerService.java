@@ -8,7 +8,7 @@ import com.revature.accounts.Account;
 import com.revature.app.Driver;
 import com.revature.dao.CustomerDAO;
 import com.revature.dao.CustomerDAOImpl;
-
+import com.revature.exceptions.InvalidActionException;
 import com.revature.users.Customer;
 
 import org.apache.logging.log4j.LogManager;
@@ -164,7 +164,11 @@ public class CustomerService {
 					logger.trace("Deposit attempt was made. Result: " + deposit);
 
 					continue;
-				} catch (IndexOutOfBoundsException e) {
+				}catch (InvalidActionException e1) {
+					System.out.println(e1.getMessage());
+				}
+				
+				catch (IndexOutOfBoundsException e) {
 					System.out.println("You don't have enough accounts to match your choice of account.");
 
 					continue;
@@ -210,6 +214,8 @@ public class CustomerService {
 					System.out.println("You don't have enough accounts to match your choice of account.");
 
 					continue;
+				} catch (InvalidActionException e1) {
+					System.out.println(e1.getMessage());
 				}
 			} else if (response.equals("transfer")) {
 				System.out.println(
@@ -265,6 +271,8 @@ public class CustomerService {
 					continue;
 				} catch (NullPointerException e) {
 					System.out.println("Receiving account could not be found.");
+				}  catch (InvalidActionException e1) {
+					System.out.println(e1.getMessage());
 				}
 			} else if (response.equals("exit")) {
 

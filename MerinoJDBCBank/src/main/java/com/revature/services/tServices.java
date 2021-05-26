@@ -4,20 +4,21 @@ import com.revature.accounts.*;
 
 import com.revature.dao.TDAO;
 import com.revature.dao.TDAOImpl;
+import com.revature.exceptions.InvalidActionException;
 
 public class tServices {
 	private TDAO tDao = new TDAOImpl();
 	private AccountService accServ = new AccountService();
 
-	public String withdraw(double amount, int accNumber) {
+	public String withdraw(double amount, int accNumber) throws InvalidActionException {
 		Account account = accServ.getAccount(accNumber);
 		if(account == null) {
-			return "Account not found for withdrawl";
+			throw new InvalidActionException("Account not found for withdrawl");
 		}
 		if (account.getApproved().equals("Pending") ) {
-			return "The account is pending approval. No withdrawals allowed until the account is approved.";
+			throw new InvalidActionException("The account is pending approval. No withdrawals allowed until the account is approved.");
 		} else if (account.getApproved() == "Cancelled") {
-			return "This account has been cancelled. Please talk to a local teller.";
+			throw new InvalidActionException("This account has been cancelled. Please talk to a local teller.");
 		}
 		if (account.getBalance() > amount) {
 			if (amount > 0) {
@@ -33,22 +34,22 @@ public class tServices {
 					return "The withdrawl was unsuccessful";
 				}
 			} else {
-				return "You should withdraw an amount bigger than 0.";
+				throw new InvalidActionException("You should withdraw an amount bigger than 0.");
 			}
 		} else {
-			return "Insuficient funds to make this withdrawal. Transaction canceled.";
+			throw new InvalidActionException("Insuficient funds to make this withdrawal. Transaction canceled.");
 		}
 	}
 
-	public String deposit(double amount, int accNumber) {
+	public String deposit(double amount, int accNumber) throws InvalidActionException {
 		Account account = accServ.getAccount(accNumber);
 		if(account == null) {
-			return "Account not found for deposit";
+			throw new InvalidActionException("Account not found for deposit");
 		}
 		if (account.getApproved().equals("Pending")) {
-			return "The account is pending approval. No deposits allowed until the account is approved.";
+			throw new InvalidActionException("The account is pending approval. No deposits allowed until the account is approved.");
 		} else if (account.getApproved().equals("Cancelled") ) {
-			return "This account has been cancelled. Please talk to a local teller.";
+			throw new InvalidActionException("This account has been cancelled. Please talk to a local teller.");
 		}
 		if (amount > 0) {
 			if (tDao.deposit(accNumber, amount)) {
@@ -62,32 +63,32 @@ public class tServices {
 				return "The deposit was unsuccessful";
 			}
 		} else {
-			return "You should deposit an amount bigger than 0.";
+			throw new InvalidActionException("You should deposit an amount bigger than 0.");
 		}
 	}
 
-	public String transfer(double amount, int senderNumber, int receiverNumber) {
+	public String transfer(double amount, int senderNumber, int receiverNumber) throws InvalidActionException {
 		Account sender = accServ.getAccount(senderNumber);
 		Account receiver = accServ.getAccount(receiverNumber);
 		if(sender == null) {
-			return "Account not found for withdrawl portion. Transfer cancelled.";
+			throw new InvalidActionException("Account not found for withdrawl portion. Transfer cancelled.");
 		}
 		if(receiver == null) {
-			return "Account not found for deposit portion. Transfer cancelled.";
+			throw new InvalidActionException("Account not found for deposit portion. Transfer cancelled.");
 		}
 		if (amount <= 0) {
-			return "The transfer amount should be bigger than 0.";
+			throw new InvalidActionException("The transfer amount should be bigger than 0.");
 		} else if (senderNumber == receiverNumber) {
-			return "You cannot transfer funds between the same account. Please choose to withdraw or deposit as necessary.";
+			throw new InvalidActionException("You cannot transfer funds between the same account. Please choose to withdraw or deposit as necessary.");
 		} else {
 			if (sender.getBalance() < amount) {
-				return "Insufficient funds to carry the transaction";
+				throw new InvalidActionException("Insufficient funds to carry the transaction");
 			} else if (sender.getApproved().equals("Pending")) {
-				return "The account is pending approval. No transfers allowed until the account is approved.";
+				throw new InvalidActionException("The account is pending approval. No transfers allowed until the account is approved.");
 			} else if (sender.getApproved().equals("Cancelled")) {
-				return "This account has been cancelled. Please talk to a local teller.";
+				throw new InvalidActionException("This account has been cancelled. Please talk to a local teller.");
 			} else if (receiver.getApproved().equals("Pending") || receiver.getApproved().equals("Cancelled")) {
-				return "The recepient account is unable to receive transfers at the moment. Please speak to your recepient.";
+				throw new InvalidActionException("The recepient account is unable to receive transfers at the moment. Please speak to your recepient.");
 			}
 			if (sender.getApproved().equals("Approved") && receiver.getApproved().equals("Approved")) {
 				if(tDao.transfer(amount, senderNumber, receiverNumber)) {

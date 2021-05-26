@@ -12,6 +12,7 @@ import com.revature.dao.EmployeeDAO;
 import com.revature.dao.EmployeeDAOImpl;
 import com.revature.dao.TDAO;
 import com.revature.dao.TDAOImpl;
+import com.revature.exceptions.InvalidActionException;
 import com.revature.users.Customer;
 import com.revature.users.Employee;
 
@@ -320,6 +321,9 @@ public class EmployeeService {
 					System.out.println("Account could not be found.");
 					continue;
 				}
+				String withdraw = tServ.withdraw(amount, acc.getAccountNumber());
+				System.out.println(withdraw);
+				logger.trace("Withdrawl attempted. Result: " + withdraw);
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -327,10 +331,10 @@ public class EmployeeService {
 				System.out.println("Account could not be found.");
 				continue;
 
+			} catch (InvalidActionException e1) {
+				System.out.println(e1.getMessage());
 			}
-			String withdraw = tServ.withdraw(amount, acc.getAccountNumber());
-			System.out.println(withdraw);
-			logger.trace("Withdrawl attempted. Result: " + withdraw);
+			
 		}
 
 	}
@@ -375,6 +379,9 @@ public class EmployeeService {
 					System.out.println("Account could not be found.");
 					continue;
 				}
+				String deposit = tServ.deposit(amount, acc.getAccountNumber());
+				logger.trace("Deposit attempt was made. Result: " + deposit);
+				System.out.println(deposit);
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -382,10 +389,10 @@ public class EmployeeService {
 				System.out.println("Account could not be found.");
 				continue;
 
+			} catch (InvalidActionException e1) {
+				System.out.println(e1.getMessage());
 			}
-			String deposit = tServ.deposit(amount, acc.getAccountNumber());
-			logger.trace("Deposit attempt was made. Result: " + deposit);
-			System.out.println(deposit);
+			
 		}
 
 	}
@@ -443,6 +450,9 @@ public class EmployeeService {
 					System.out.println("Account could not be found.");
 					continue;
 				}
+				String transfer = tServ.transfer(amount, sender.getAccountNumber(), receiver.getAccountNumber());
+				logger.trace("Transfer attempt was made. Result: " + transfer);
+				System.out.println(transfer);
 			} catch (NumberFormatException e) {
 				System.out.println("Please type an account number");
 				continue;
@@ -450,11 +460,11 @@ public class EmployeeService {
 				System.out.println("Account could not be found.");
 				continue;
 
+			} catch (InvalidActionException e1) {
+				System.out.println(e1.getMessage());
 			}
 			
-			String transfer = tServ.transfer(amount, sender.getAccountNumber(), receiver.getAccountNumber());
-			logger.trace("Transfer attempt was made. Result: " + transfer);
-			System.out.println(transfer);
+			
 		}
 
 	}
