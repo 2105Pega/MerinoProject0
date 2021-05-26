@@ -72,10 +72,11 @@ public class CustomerService {
 		return cDao.getCustomer(id);
 	}
 
-	public void listAccounts(Customer customer) {
-		for (int i = 0; i < customer.getNumberOfAccounts(); i++) {
+	public void listAccounts(Customer cus) {
+		
+		for (int i = 0; i < cus.getNumberOfAccounts(); i++) {
 			int j = i + 1;
-			System.out.println(j + ". " + accServ.getAccount(customer.getAccount(i)));
+			System.out.println(j + ". " + accServ.getAccount(cus.getAccount(i)));
 		}
 	}
 
@@ -119,8 +120,10 @@ public class CustomerService {
 
 	}
 
-	public void accounts(Customer customer, Scanner sc) {
+	public void accounts(Customer cus, Scanner sc) {
+		
 		while (true) {
+			Customer customer = getCustomer(cus.getUserID());
 			System.out.println("These are your current bank accounts:");
 			listAccounts(customer);
 			System.out.println(
@@ -395,7 +398,7 @@ public class CustomerService {
 				if (accServ.createAccount(a)) {
 					Customer updatedCus = getCustomer(customer.getUserID());
 					a = accServ.getAccount(findLastAccount(updatedCus));
-
+					
 					StringBuilder sb = new StringBuilder();
 					sb.append("A new account was created. Account number [");
 					sb.append(a.getAccountNumber());
