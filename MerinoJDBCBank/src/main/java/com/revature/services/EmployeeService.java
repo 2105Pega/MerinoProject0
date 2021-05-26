@@ -34,7 +34,7 @@ public class EmployeeService {
 
 			System.out.println(
 					"To make decisions on pending accounts type 'pending', to cancel an account type 'cancel', to carry out transactions type "
-							+ "'transactions', to view a customer's information type 'customer', to exit type 'exit'.");
+							+ "'transactions', to view a customer's information type 'customer', to logout type 'logout'.");
 			String response;
 			try {
 				response = sc.nextLine();
@@ -42,7 +42,7 @@ public class EmployeeService {
 				e.printStackTrace();
 				throw new NoSuchElementException("Ctrl-z stops the program. Good bye.");
 			}
-			if (response.equals("exit")) {
+			if (response.equals("logout")) {
 				break;
 			}
 			switch (response) {

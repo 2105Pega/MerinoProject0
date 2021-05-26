@@ -30,7 +30,7 @@ public class AdminService {
 		while (true) {
 
 			System.out.println(
-					"To view existing users type 'view', to create a new user type 'create', to update an existing user type 'update', to delete a user type 'delete', and to exit type 'exit'.");
+					"To view existing users type 'view', to create a new user type 'create', to update an existing user type 'update', to delete a user type 'delete', and to logout type 'logout'.");
 			String response;
 			try {
 				response = sc.nextLine();
@@ -38,7 +38,7 @@ public class AdminService {
 				e.printStackTrace();
 				throw new NoSuchElementException("Ctrl-z stops the program. Good bye.");
 			}
-			if (response.equals("exit")) {
+			if (response.equals("logout")) {
 				break;
 			}
 			switch (response) {
