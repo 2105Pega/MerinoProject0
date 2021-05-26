@@ -14,7 +14,7 @@ public class tServices {
 		if(account == null) {
 			return "Account not found for withdrawl";
 		}
-		if (account.getApproved() == "Pending") {
+		if (account.getApproved().equals("Pending") ) {
 			return "The account is pending approval. No withdrawals allowed until the account is approved.";
 		} else if (account.getApproved() == "Cancelled") {
 			return "This account has been cancelled. Please talk to a local teller.";

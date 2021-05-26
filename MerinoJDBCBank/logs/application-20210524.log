@@ -42,3 +42,6 @@
 2021-05-24 21:54:52.453 [main] TRACE com.revature.app.Driver - Created employee Sample User with username create.
 2021-05-24 22:14:50.819 [main] TRACE com.revature.app.Driver - Account [2] was successfully deleted by user 1.
 2021-05-24 22:21:55.737 [main] FATAL com.revature.app.Driver - Unexpected RuntimeException
+2021-05-24 23:44:02.658 [main] TRACE com.revature.app.Driver - Created customer Luis Merino with username testing createUser.
+2021-05-24 23:45:02.461 [main] TRACE com.revature.app.Driver - Created administrator L M with username test2.
+2021-05-24 23:45:35.342 [main] TRACE com.revature.app.Driver - Created employee l m with username u.

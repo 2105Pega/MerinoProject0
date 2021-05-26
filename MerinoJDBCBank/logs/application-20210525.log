@@ -1,0 +1,8 @@
+2021-05-25 08:45:07.235 [main] TRACE com.revature.app.Driver - Changed password for user merinolu
+2021-05-25 09:06:53.826 [main] TRACE com.revature.app.Driver - Changed name for user 1to Luis Merino.
+2021-05-25 09:08:34.958 [main] TRACE com.revature.app.Driver - Changed name for user 1to Luis P Merino.
+2021-05-25 09:31:16.750 [main] TRACE com.revature.app.Driver - Changed password for user morejonpa
+2021-05-25 09:31:48.378 [main] TRACE com.revature.app.Driver - Changed name for user 1to Luis Merino.
+2021-05-25 19:06:20.002 [main] TRACE com.revature.app.Driver - Created customer Luis M with username luisme.
+2021-05-25 19:07:20.985 [main] TRACE com.revature.app.Driver - A new account was created. Account number [11] has balance 5000.0, and is assigned to users: luisme; merinolu;
+2021-05-25 19:31:46.373 [main] TRACE com.revature.app.Driver - Employee [9] was successfully deleted by administrator 12.

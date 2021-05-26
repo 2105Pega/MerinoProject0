@@ -3,6 +3,7 @@ package com.revature.services;
 import java.util.Scanner;
 
 import com.revature.app.Driver;
+import com.revature.users.Admin;
 import com.revature.users.Customer;
 import com.revature.users.Employee;
 import com.revature.users.User;
@@ -16,6 +17,7 @@ public class LoginService {
 	private UserService uServ = new UserService();
 	private CustomerService cServ = new CustomerService();
 	private EmployeeService eServ = new EmployeeService();
+	private AdminService admServ = new AdminService();
 
 	public void service( Scanner sc) {
 		while (true) {
@@ -71,8 +73,8 @@ public class LoginService {
 					continue;
 
 				} else {
-//					
-//					
+					Admin adm = admServ.getAdmin(user.getUserID());
+					admServ.service(adm, sc);
 					continue;
 				}
 
@@ -145,15 +147,28 @@ public class LoginService {
 						switch (type) {
 						case "customer":
 							Customer cus = new Customer(1, user, pass, firstName, lastName);
-							cServ.createCustomer(user, pass, firstName, lastName);
-							logger.trace("Created customer " + cus.getFirstName() + " " + cus.getLastName() + " with username " + cus.getUserName() + "." );
-							System.out.println("Created this customer account.");
-							break;
+							if (cServ.createCustomer(user, pass, firstName, lastName)) {
+								logger.trace("Created customer " + cus.getFirstName() + " " + cus.getLastName() + " with username " + cus.getUserName() + "." );
+								System.out.println("Created this customer account.");
+								break;
+							} else {
+								System.out.println("Error creating customer account.");
+								break;
+							}
+						
+							
+							
 						case "employee":
-							Employee emp = new Employee(1, user, pass, firstName, lastName, 2);
-							eServ.createEmployee(user, pass, firstName, lastName);
-							logger.trace("Created employee " + emp.getFirstName() + " " + emp.getLastName() + " with username " + emp.getUserName() + "." );
-							System.out.println("Created this employee account.");
+//							Employee emp = new Employee(1, user, pass, firstName, lastName, 2);
+//							if(eServ.createEmployee(user, pass, firstName, lastName)) {
+//								logger.trace("Created employee " + emp.getFirstName() + " " + emp.getLastName() + " with username " + emp.getUserName() + "." );
+//								System.out.println("Created this employee account.");
+//								break;
+//							} else {
+//								System.out.println("Error creating employee account.");
+//								break;
+//							}
+							System.out.println("Only an administrator can create an employee account. Please speak to your manager.");
 							break;
 						default:
 							System.out.println("Invalid input.");

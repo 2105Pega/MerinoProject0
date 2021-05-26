@@ -26,7 +26,7 @@ public class CustomerService {
 		while (true) {
 			// Welcome
 			System.out.println("Welcome " + customer.getFirstName() + " " + customer.getLastName()
-					+ ". We have your phone number and address listed as:");
+					+ ". Your user ID is [" + customer.getUserID()+ "]. We have your phone number and address listed as:");
 			System.out.println("Phone number: " + customer.getPhone() + ".");
 			System.out.println("Address:");
 			System.out.println(customer.getAddress());
@@ -57,6 +57,7 @@ public class CustomerService {
 				continue;
 			case "open":
 				openAccount(customer, sc);
+				continue;
 			default:
 				System.out.println("Please select and type one of the options provided.");
 				break;
@@ -432,5 +433,8 @@ public class CustomerService {
 
 	public boolean createCustomer(String user, String password, String fName, String lName) {
 		return cDao.createCustomer(user, password, fName, lName);
+	}
+	public boolean deleteCustomer(Integer userID) {
+		return cDao.deleteCustomer(userID);
 	}
 }

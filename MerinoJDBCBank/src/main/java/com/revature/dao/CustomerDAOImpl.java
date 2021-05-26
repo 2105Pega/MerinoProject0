@@ -162,4 +162,26 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return false;
 	}
 
+	@Override
+	public boolean deleteCustomer(Integer userID) {
+		// TODO Auto-generated method stub
+		try (Connection conn = ConnectionUtils.getConnection()){
+			String sql = "delete from user_account_table where user_id = ?;delete from personal_information_table where user_id = ?; delete from user_table where user_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, userID);
+			statement.setInt(2, userID);
+			statement.setInt(3, userID);
+			statement.execute();
+			return true;
+		} catch(PSQLException e1) {
+			System.out.println(e1.getMessage());
+			return false;
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	
+	}
+
 }
