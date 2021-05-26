@@ -1,7 +1,0 @@
-package com.revature.users;
-
-public class User {
-	String userName;
-	String password;
-	
-}

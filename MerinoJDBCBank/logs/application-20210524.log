@@ -1,0 +1,47 @@
+2021-05-24 14:11:13.250 [main] TRACE com.revature.app.Driver - Changed password for user merinolu
+2021-05-24 14:12:46.155 [main] TRACE com.revature.app.Driver - Changed password for user merinolu
+2021-05-24 14:21:42.181 [main] TRACE com.revature.app.Driver - Deposit attempt was made. Result: Account [1] had an account balance of 2400.0 and a deposit of 200.0 was made. The new balance is: 2600.0.
+2021-05-24 14:22:03.078 [main] TRACE com.revature.app.Driver - Deposit attempt was made. Result: This account has been cancelled. Please talk to a local teller.
+2021-05-24 14:22:20.352 [main] TRACE com.revature.app.Driver - A withdrawl attempt was made. Result: Account [3] had an account balance of 6500.0 and a withdrawal of 800.0 was made. The new balance is: 5700.0.
+2021-05-24 14:22:42.540 [main] TRACE com.revature.app.Driver - A transfer attempt was made. Result: Account [3] had an account balance of 5700.0 and a withdrawal of 500.0 was made. The new balance is: 5200.0. The withdrawn amount was transferred to account [1] and should be available immediately.
+2021-05-24 14:23:21.338 [main] TRACE com.revature.app.Driver - A transfer attempt was made. Result: You cannot transfer funds between the same account. Please choose to withdraw or deposit as necessary.
+2021-05-24 14:23:37.006 [main] TRACE com.revature.app.Driver - A transfer attempt was made. Result: Insufficient funds to carry the transaction
+2021-05-24 14:24:00.284 [main] TRACE com.revature.app.Driver - A transfer attempt was made. Result: The recepient account is unable to receive transfers at the moment. Please speak to your recepient.
+2021-05-24 14:24:42.016 [main] TRACE com.revature.app.Driver - A transfer attempt was made. Result: Insufficient funds to carry the transaction
+2021-05-24 15:35:23.071 [main] TRACE com.revature.app.Driver - A new account was created. Account number [8] has balance 1000.0, and is assigned to users: merinolu;
+2021-05-24 15:50:38.020 [main] TRACE com.revature.app.Driver - Updated phone number for user merinolu. New phone number is: 561-507-0658.
+2021-05-24 15:50:38.023 [main] TRACE com.revature.app.Driver - Updated address for user merinolu. New address is: Some address, West Palm Beach, FL 33409.
+2021-05-24 15:59:55.248 [main] TRACE com.revature.app.Driver - Changed password for user merinolu
+2021-05-24 16:20:29.655 [main] TRACE com.revature.app.Driver - Updated phone number for user merinolu. New phone number is: 561-507-0658.
+2021-05-24 16:20:29.658 [main] TRACE com.revature.app.Driver - Updated address for user merinolu. New address is: Some Address.
+2021-05-24 16:20:47.319 [main] TRACE com.revature.app.Driver - Changed password for user merinolu
+2021-05-24 16:21:09.442 [main] TRACE com.revature.app.Driver - Deposit attempt was made. Result: The account is pending approval. No deposits allowed until the account is approved.
+2021-05-24 16:21:39.079 [main] TRACE com.revature.app.Driver - A withdrawl attempt was made. Result: Account [3] had an account balance of 5200.0 and a withdrawal of 500.0 was made. The new balance is: 4700.0.
+2021-05-24 16:22:17.932 [main] TRACE com.revature.app.Driver - A transfer attempt was made. Result: Account [3] had an account balance of 4700.0 and a withdrawal of 200.0 was made. The new balance is: 4500.0. The withdrawn amount was transferred to account [1] and should be available immediately.
+2021-05-24 16:24:34.245 [main] TRACE com.revature.app.Driver - A new account was created. Account number [10] has balance 200.0, and is assigned to users: merinolu;
+2021-05-24 16:40:49.528 [main] TRACE com.revature.app.Driver - Account [8] has been approved by Pablo Morejon.
+2021-05-24 16:43:09.350 [main] TRACE com.revature.app.Driver - Account [10] has been approved by Pablo Morejon.
+2021-05-24 16:50:53.418 [main] TRACE com.revature.app.Driver - Account [10] has been cancelled by Pablo Morejon and its funds have been withdrawn.
+2021-05-24 16:52:35.707 [main] TRACE com.revature.app.Driver - Account [10] has been cancelled by Pablo Morejon and its funds have been withdrawn.
+2021-05-24 16:57:05.416 [main] TRACE com.revature.app.Driver - Account [10] has been cancelled by Pablo Morejon and its funds have been withdrawn.
+2021-05-24 17:09:43.582 [main] TRACE com.revature.app.Driver - Account [8] has been rejected by Pablo Morejon and it's funds have been withdrawn.
+2021-05-24 17:42:30.556 [main] TRACE com.revature.app.Driver - Only pending accounts may be approved.
+2021-05-24 17:42:46.205 [main] TRACE com.revature.app.Driver - Only pending accounts may be rejected.
+2021-05-24 17:49:04.753 [main] TRACE com.revature.app.Driver - Account [3] has been cancelled by Pablo Morejon and its funds have been withdrawn.
+2021-05-24 17:49:04.756 [main] TRACE com.revature.app.Driver - Account [3] has been cancelled by Pablo Morejon and its funds have been withdrawn.
+2021-05-24 19:19:19.552 [main] TRACE com.revature.app.Driver - Withdrawl attempted. Result: Account [1] had an account balance of 3300.0 and a withdrawal of 200.0 was made. The new balance is: 3100.0.
+2021-05-24 19:19:30.160 [main] TRACE com.revature.app.Driver - Withdrawl attempted. Result: Insuficient funds to make this withdrawal. Transaction canceled.
+2021-05-24 19:19:59.833 [main] TRACE com.revature.app.Driver - Withdrawl attempted. Result: Insuficient funds to make this withdrawal. Transaction canceled.
+2021-05-24 19:25:09.165 [main] TRACE com.revature.app.Driver - Deposit attempt was made. Result: Account [8] had an account balance of 0.0 and a deposit of 500.0 was made. The new balance is: 500.0.
+2021-05-24 19:25:29.669 [main] TRACE com.revature.app.Driver - Deposit attempt was made. Result: This account has been cancelled. Please talk to a local teller.
+2021-05-24 19:25:44.318 [main] TRACE com.revature.app.Driver - Deposit attempt was made. Result: You should deposit an amount bigger than 0.
+2021-05-24 19:30:53.528 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: Account [1] had an account balance of 3100.0 and a withdrawal of 500.0 was made. The new balance is: 2600.0. The withdrawn amount was transferred to account [8] and should be available immediately.
+2021-05-24 19:31:58.355 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: Account [8] had an account balance of 1000.0 and a withdrawal of 500.0 was made. The new balance is: 500.0. The withdrawn amount was transferred to account [1] and should be available immediately.
+2021-05-24 19:32:32.635 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: Insufficient funds to carry the transaction
+2021-05-24 19:32:48.351 [main] TRACE com.revature.app.Driver - Transfer attempt was made. Result: The recepient account is unable to receive transfers at the moment. Please speak to your recepient.
+2021-05-24 21:54:52.453 [main] TRACE com.revature.app.Driver - Created employee Sample User with username create.
+2021-05-24 22:14:50.819 [main] TRACE com.revature.app.Driver - Account [2] was successfully deleted by user 1.
+2021-05-24 22:21:55.737 [main] FATAL com.revature.app.Driver - Unexpected RuntimeException
+2021-05-24 23:44:02.658 [main] TRACE com.revature.app.Driver - Created customer Luis Merino with username testing createUser.
+2021-05-24 23:45:02.461 [main] TRACE com.revature.app.Driver - Created administrator L M with username test2.
+2021-05-24 23:45:35.342 [main] TRACE com.revature.app.Driver - Created employee l m with username u.

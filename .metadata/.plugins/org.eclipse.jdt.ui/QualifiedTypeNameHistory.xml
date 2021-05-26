@@ -10,15 +10,20 @@
     <fullyQualifiedTypeName name="java.io.ObjectInputStream"/>
     <fullyQualifiedTypeName name="java.io.EOFException"/>
     <fullyQualifiedTypeName name="java.util.Scanner"/>
-    <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="com.revature.users.UserList"/>
-    <fullyQualifiedTypeName name="com.revature.users.Customer"/>
     <fullyQualifiedTypeName name="com.revature.services.AccountService"/>
     <fullyQualifiedTypeName name="com.revature.accounts.Account"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.revature.services.UserService"/>
     <fullyQualifiedTypeName name="com.revature.services.UserListService"/>
     <fullyQualifiedTypeName name="com.revature.services.CustomerService"/>
-    <fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
     <fullyQualifiedTypeName name="com.revature.services.EmployeeService"/>
+    <fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
+    <fullyQualifiedTypeName name="com.revature.users.Customer"/>
+    <fullyQualifiedTypeName name="com.revature.users.Employee"/>
+    <fullyQualifiedTypeName name="com.revature.services.LoginService"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="com.revature.util.ConnectionUtils"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 </qualifiedTypeNameHistroy>

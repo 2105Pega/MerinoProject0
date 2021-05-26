@@ -1,0 +1,3 @@
+2021-05-22 14:26:40.859 [main] FATAL com.revature.app.Driver - User exited the app forcefully using a shortcut.
+2021-05-22 14:26:40.864 [main] TRACE com.revature.app.Driver - Exited the application correctly after writting the state of our UserList.
+2021-05-22 14:29:07.123 [main] TRACE com.revature.app.Driver - Exited the application correctly after writting the state of our UserList.
