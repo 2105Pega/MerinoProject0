@@ -40,10 +40,10 @@ public class Driver {
 
 			System.out.println("Force exiting the application.");
 			logger.fatal("User exited the application forcefully using a shortcut.");
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 
 			System.out.println("Caught unexpected exception. Closing the application.");
-			logger.fatal("Unexpected RuntimeException");
+			logger.fatal("Unexpected RuntimeException: " + e.getMessage());
 		}
 
 

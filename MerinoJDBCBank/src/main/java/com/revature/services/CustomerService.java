@@ -34,10 +34,10 @@ public class CustomerService {
 			// Select to update info, see accounts, or exit.
 
 			System.out.println(
-					"Please type 'update' if you would like to update your personal information, 'password' to update it, 'accounts' to see your bank accounts, 'open' to open a new account or 'exit' to leave the program.");
+					"Please type 'update' if you would like to update your personal information, 'password' to update it, 'accounts' to see your bank accounts, 'open' to open a new account or 'logout' to logout.");
 
 			String response = sc.nextLine();
-			if (response.equals("exit")) {
+			if (response.equals("logout")) {
 
 				break;
 			}
